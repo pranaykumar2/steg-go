@@ -1,0 +1,55 @@
+# Binary files
+/stego
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+*.coverprofile
+
+# Dependency directories
+/vendor/
+/Godeps/
+
+# Go workspace file
+go.work
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Project-specific files
+# Test images with hidden data
+*-hidden.png
+test_output.png
+test_encrypted_output.png
+
+# Any encryption keys or test data files
+*.key
+/tests/testdata/*.bin
+
+# Log files
+*.log
+
+# Local development environment
+.env
+
+gopath
+.idea
+
+# Debug files
+debug
+
+# Replit specific
+.replit
+replit.nix
+.cache/
