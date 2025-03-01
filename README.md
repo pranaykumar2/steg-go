@@ -23,6 +23,9 @@ Steg-Go is a powerful command-line tool for hiding encrypted messages within ima
 git clone https://github.com/pranaykumar2/steg-go.git
 cd steg-go
 
+#Change the permission to executable
+chmod +x build.sh
+
 # Build the application
 ./build.sh
 
