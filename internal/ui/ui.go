@@ -23,7 +23,7 @@ func NewUI(username string) *UI {
 
 func (u *UI) PrintHeader() {
   color.Cyan("\n╔══════════════════════════════════════════╗")
-  color.Cyan("║      Secure Image Steganography Tool      ║")
+  color.Cyan("║      Secure Image Steganography Tool     ║")
   color.Cyan("╚══════════════════════════════════════════╝\n")
 
   color.Blue("Current Time (UTC): %s", time.Now().UTC().Format("2006-01-02 15:04:05"))
