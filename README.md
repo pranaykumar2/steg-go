@@ -16,6 +16,13 @@ Steg-Go is a powerful command-line tool for hiding encrypted messages within ima
 
 ## 📦 Installation
 
+## ▶️ Run It on Replit
+
+Want to try Steg-Go without installing anything? Click the button below to run it instantly on Replit.
+
+[![Run on Replit](https://replit.com/badge/github/pranaykumar2/steg-go)](https://replit.com/github/pranaykumar2/steg-go)
+
+
 ### From Source
 
 ```bash
