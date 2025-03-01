@@ -45,7 +45,7 @@ cd steg-go
 **Example Session:**
 ```yaml
 ╔══════════════════════════════════════════╗
-║      Secure Image Steganography Tool      ║
+║      Secure Image Steganography Tool     ║
 ╚══════════════════════════════════════════╝
 Current Time (UTC): 2025-03-01 09:41:34
 User: runner
@@ -73,7 +73,7 @@ This is a top secret message!
 **Example Session:**
 ```yaml
 ╔══════════════════════════════════════════╗
-║      Secure Image Steganography Tool      ║
+║      Secure Image Steganography Tool     ║
 ╚══════════════════════════════════════════╝
 Current Time (UTC): 2025-03-01 09:42:04
 User: runner
