@@ -200,9 +200,96 @@ Extracted message: This is a top secret message!
 
 ## 🔍 The Magic Behind Steg-Go
 
-<div align="center">
-  <img src="steg-diagram.png" alt="Steganography Diagram" width="700">
-</div>
+### Complete Data Flow Process
+
+The diagram below shows how Steg-Go transforms your secret message and embeds it invisibly into an image:
+
+```mermaid
+
+flowchart TD
+
+    %% Styling definitions
+
+    classDef phase fill:#ffe6cc,stroke:#d79b00,stroke-width:2px,color:#000000
+
+    classDef process fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000
+
+    classDef data fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000
+
+    classDef detail fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000
+
+    
+
+    subgraph Input ["Input Phase"]
+
+        A[Original Image]:::data --> |Load| C[Image Processing]:::process
+
+        B[Secret Message]:::data --> |Prepare| D[Message Processing]:::process
+
+    end
+
+    subgraph Encryption ["Encryption Phase"]
+
+        D --> E[Generate AES-256 Key]:::process
+
+        E --> F[Encrypt Message]:::process
+
+        F --> G[Encrypted Payload]:::data
+
+    end
+
+    subgraph Steganography ["Steganography Phase"]
+
+        C --> H[Extract Pixel Data]:::process
+
+        G --> I[Convert to Bit Stream]:::process
+
+        H --> J[LSB Replacement Algorithm]:::process
+
+        I --> J
+
+        J --> K[Modified Pixel Data]:::data
+
+        K --> L[Assemble New Image]:::process
+
+    end
+
+    subgraph Output ["Output Phase"]
+
+        L --> M[Save as PNG]:::process
+
+        E --> N[Display Encryption Key]:::data
+
+    end
+
+    %% Detailed LSB Process
+
+    subgraph LSB ["LSB Modification Detail"]
+
+        LSB1[Original Pixel Value]:::detail --> |Extract| LSB2[RGB Components]:::detail
+
+        LSB2 --> |Modify Last Bit| LSB3[LSB Replacement]:::detail
+
+        LSB4[Secret Bit Stream]:::detail --> LSB3
+
+        LSB3 --> LSB5[New Pixel Value]:::detail
+
+    end
+
+    
+
+    J -.-> LSB
+
+```
+
+### How It Works
+
+1. **Input Phase**: The original image and secret message are loaded and prepared
+2. **Encryption Phase**: Your message is secured with AES-256 encryption
+3. **Steganography Phase**: The encrypted data is embedded bit by bit into the image
+4. **Output Phase**: The modified image is saved, looking identical to the original
+
+The LSB (Least Significant Bit) modification detail shows exactly how each pixel is subtly altered to store your secret data without visible changes.
 
 ### LSB Steganography Explained
 
