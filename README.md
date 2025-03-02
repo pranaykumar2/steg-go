@@ -2,10 +2,10 @@
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="logo/logo1.png">
-  <img alt="Steg-Go Logo" src="logo/logo1.png" width="460" height="130">
+  <img alt="Steg-Go Logo" src="logo/logo1.png" width="460" height="125">
 </picture>
 
-### *Hide secrets in plain sight*
+### *Secret Text Embedded Generates Output*
 
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=for-the-badge&logo=go)](https://golang.org)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
