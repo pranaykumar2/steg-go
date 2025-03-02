@@ -1,8 +1,9 @@
 <div align="center">
-  
-# 🔐 Steg-Go
 
-[![Banner](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=250&section=header&text=Steg-Go&fontSize=80&fontAlignY=35&desc=Military-Grade%20Image%20Steganography&descSize=25&descAlignY=60&animation=fadeIn)](https://github.com/pranaykumar2/steg-go)
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="logo/logo1.png">
+  <img alt="Steg-Go Logo" src="logo/logo1.png" width="280">
+</picture>
 
 ### *Hide secrets in plain sight*
 
@@ -14,11 +15,6 @@
 </div>
 
 ---
-
-<picture>
-  <source media="(prefers-color-scheme: light)" srcset="logo/logo2.png">
-  <img alt="Steg-Go" src="logo/logo2.png" width="280">
-</picture>
 
 ## 🌟 What is Steg-Go?
 
