@@ -1,111 +1,108 @@
-[![Banner](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=150&section=header&text=Steg-Go%20-%20Image%20Steganography&fontSize=30&animation=fadeIn&fontAlignY=35&desc=Hide%20secrets%20in%20plain%20sight%20with%20military-grade%20encryption!&descAlignY=51&descAlignX=50)](https://github.com/pranaykumar2/steg-go)
+<div align="center">
+  
+# 🔐 Steg-Go
 
-<p align="center">
-  <a href="https://golang.org"><img src="https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat-square&logo=go" alt="Go Version"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License"></a>
-  <a href="https://github.com/pranaykumar2/steg-go/stargazers"><img src="https://img.shields.io/github/stars/pranaykumar2/steg-go?style=social" alt="Stars"></a>
-</p>
+[![Banner](https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12&height=250&section=header&text=Steg-Go&fontSize=80&fontAlignY=35&desc=Military-Grade%20Image%20Steganography&descSize=25&descAlignY=60&animation=fadeIn)](https://github.com/pranaykumar2/steg-go)
 
----
+### *Hide secrets in plain sight*
 
-## 🚀 **What is Steg-Go?**
-🔒 **Steg-Go** is a powerful **command-line tool** that hides **encrypted messages inside images** using **Least Significant Bit (LSB) Steganography** and **AES-256 encryption**. Protect your sensitive data by embedding it imperceptibly in PNG/JPEG images!
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=for-the-badge&logo=go)](https://golang.org)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/pranaykumar2/steg-go?style=for-the-badge&logo=github)](https://github.com/pranaykumar2/steg-go/stargazers)
+[![Run on Replit](https://img.shields.io/badge/Run%20on-Replit-orange?style=for-the-badge&logo=replit)](https://replit.com/github/pranaykumar2/steg-go)
 
----
-
-## 🌟 **Features**
-<p align="center">
-  <img src="https://img.shields.io/badge/Steganography-Hide%20messages%20in%20images-blueviolet?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Encryption-AES--256%20military--grade-red?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/CLI%20Tool-Simple%20Command--line%20Interface-orange?style=for-the-badge"/>
-</p>
-
-✅ **Steganography**: Hide messages **imperceptibly** in PNG/JPEG images  
-✅ **AES-256 Encryption**: Military-grade encryption for maximum security  
-✅ **Intuitive CLI**: User-friendly, fast command-line tool  
-✅ **Format Support**: Works with PNG and JPG/JPEG input images  
-✅ **Data Integrity**: Ensures hidden data remains intact  
+</div>
 
 ---
 
-## 📦 **Installation**
-### **🔧 From Source (Unix Based Systems)**
+<div align="center">
+  <img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/icons/folder-secure.svg" width="200" />
+</div>
+
+## 🌟 What is Steg-Go?
+
+**Steg-Go** is a powerful command-line tool that lets you **hide encrypted messages inside ordinary images**. Using advanced **Least Significant Bit (LSB) Steganography** combined with **AES-256 encryption**, it provides a secure way to conceal sensitive information in plain sight.
+
+<div align="center">
+
+### "If you want to keep a secret, you must also hide it from yourself." — George Orwell
+
+</div>
+
+---
+
+## ✨ Key Features
+
+<table align="center">
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/icons/lock.svg" width="60"/></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/icons/console.svg" width="60"/></td>
+    <td align="center"><img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/icons/image.svg" width="60"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Military-Grade Encryption</b></td>
+    <td align="center"><b>Intuitive CLI</b></td>
+    <td align="center"><b>Transparent Visual Quality</b></td>
+  </tr>
+  <tr>
+    <td>AES-256 encryption ensures your data remains secure even if steganography is detected</td>
+    <td>Simple, guided interface for both hiding and extracting data</td>
+    <td>No visible changes to images — your secrets remain truly hidden</td>
+  </tr>
+</table>
+
+### Security & Stealth
+
+- ✅ **Undetectable to the human eye** - Modifies only the least significant bits
+- ✅ **Double-layer protection** - Steganography + encryption
+- ✅ **Format preservation** - Maintains image quality
+- ✅ **Cross-platform** - Works on Linux, macOS, and Windows
+
+---
+
+## 🚀 Installation
+
+<details>
+<summary><b>📦 Unix/Linux/MacOS</b></summary>
+
 ```bash
 # Clone the repository
 git clone https://github.com/pranaykumar2/steg-go.git
 cd steg-go
 
-# Change permissions to executable
+# Build and run
 chmod +x build.sh
-
-# Build the application
 ./build.sh
-
-# Run the application
 ./stego info
-
 ```
-# 🌟 Running **Steg-Go** on Windows 🚀  
+</details>
 
-Make **Steg-Go** work seamlessly on Windows with these simple steps!  
+<details>
+<summary><b>🪟 Windows</b></summary>
 
----
+1. **Install Go** from [golang.org/dl](https://golang.org/dl/)
 
-## 📌 **1. Install Go on Windows** 🛠️  
+2. **Clone the repository**
+   ```cmd
+   git clone https://github.com/pranaykumar2/steg-go.git
+   cd steg-go
+   ```
 
-1️⃣ Download the Go installer for Windows from 👉 [Go Official Site](https://golang.org/dl/)  
-2️⃣ Run the downloaded `.msi` file and follow the installation steps  
-3️⃣ Verify your installation by opening **Command Prompt** and running:  
+3. **Build the application**
+   ```cmd
+   go mod tidy
+   go build -o stego.exe ./cmd/stego
+   ```
 
-   ```sh
-   go version
-   ```  
-   ✅ If you see a version number, you're good to go!  
+4. **Run Steg-Go**
+   ```cmd
+   .\stego.exe info
+   ```
 
----
+<details>
+<summary>💡 Windows Batch File (Optional)</summary>
 
-## 🔗 **2. Clone the Repository** 🌍  
-
-Open **Git Bash** or **Command Prompt** and run:  
-
-```sh
-git clone https://github.com/pranaykumar2/steg-go.git
-cd steg-go
-```  
-
----
-
-## ⚙️ **3. Build the Application** 🔨  
-
-Since `build.sh` is meant for Unix systems, use these Windows-friendly commands instead:  
-
-```sh
-go mod tidy
-go build -o stego.exe ./cmd/stego
-```  
-
----
-
-## 🚀 **4. Run the Application** 🎯  
-
-Once built, you can run **Steg-Go** using:  
-
-```sh
-.\stego.exe info
-```  
-
-### ➡️ Other Available Commands  
-
-| Command | Description |
-|---------|------------|
-| `.\stego.exe hide` | Hide data inside an image |
-| `.\stego.exe extract` | Extract hidden data from an image |
-
----
-
-## 📜 **Alternative: Windows Batch File**   
-
-To simplify the process, create a batch file (`build.bat`) with the following content:  
+Create `build.bat` with the following content:
 
 ```batch
 @echo off
@@ -123,42 +120,38 @@ if %ERRORLEVEL% EQU 0 (
     echo Build failed! Check for errors.
     exit /b 1
 )
-```  
+```
 
-Run the batch file by executing:  
+Run: `build.bat`
+</details>
+</details>
 
-```sh
-build.bat
-```  
-
----
-
-## 🛠 **Troubleshooting** 🧐  
-
-💡 **Facing issues? Try these fixes:**  
-
-- 🔹 **Permission Denied?** → Run **Command Prompt** as Administrator  
-- 📂 **Image Not Found?** → Ensure the image file is in the correct directory or use the full path  
-- 🎨 **Weird Terminal UI?** → Try using **Windows Terminal** (supports ANSI color codes better)  
-
-🚀 **Enjoy using Steg-Go on Windows!** 🖼️🔐  
-
----
-
-## ▶️ **Run It on Replit**
-Want to try **Steg-Go** instantly without installation? Click below to launch on **Replit**.
+<details>
+<summary><b>☁️ Try Online</b></summary>
+  
+No installation required! Try Steg-Go instantly:
 
 [![Run on Replit](https://replit.com/badge/github/pranaykumar2/steg-go)](https://replit.com/github/pranaykumar2/steg-go)
+</details>
 
 ---
 
-## 🚀 **Usage**
-### **🔹 Hide a Secret Message**
+## 🎮 How to Use
+
+<div align="center">
+  <img src="terminal-demo.gif" alt="Terminal Demo" width="700">
+</div>
+
+### Hide a Secret Message
+
 ```bash
 ./stego hide
 ```
-📌 **Example Session:**
-```yaml
+
+<details>
+<summary>📝 Example Session</summary>
+
+```
 ╔══════════════════════════════════════════╗
 ║      Secure Image Steganography Tool     ║
 ╚══════════════════════════════════════════╝
@@ -178,15 +171,18 @@ This is a top secret message!
 ✓ Message hidden successfully!
 ℹ Encryption key (save this!): 5e365d1e972297e6f6b028a6720385a1ccf126463a111537687aa1713024c4c6
 ```
+</details>
 
----
+### Extract a Hidden Message
 
-### **🔹 Extract a Hidden Message**
 ```bash
 ./stego extract
 ```
-📌 **Example Session:**
-```yaml
+
+<details>
+<summary>📝 Example Session</summary>
+
+```
 ➜ Enter image path: 
 sample-hidden.png
 
@@ -198,84 +194,187 @@ sample-hidden.png
 
 Extracted message: This is a top secret message!
 ```
+</details>
 
 ---
 
-## 🛠️ **How It Works**
-### **🔹 Least Significant Bit (LSB) Steganography**
-🖼️ **Steg-Go** modifies the **least significant bit** of each pixel's **RGB values** to hide messages:
+## 🔍 The Magic Behind Steg-Go
+
+<div align="center">
+  <img src="steg-diagram.png" alt="Steganography Diagram" width="700">
+</div>
+
+### LSB Steganography Explained
+
+Steg-Go hides your data by modifying the least significant bit of each color channel in image pixels:
+
+<table align="center">
+  <tr>
+    <th>Original Pixel</th>
+    <th>Secret Bits</th>
+    <th>Modified Pixel</th>
+  </tr>
+  <tr>
+    <td>
+      R: 100 (01100100)<br>
+      G: 150 (10010110)<br>
+      B: 200 (11001000)
+    </td>
+    <td align="center">
+      1<br>1<br>1
+    </td>
+    <td>
+      R: 101 (01100101)<br>
+      G: 151 (10010111)<br>
+      B: 201 (11001001)
+    </td>
+  </tr>
+</table>
+
+### AES-256 Encryption Flow
 
 ```mermaid
-flowchart LR
-    subgraph "Pixel Value Modification"
-        P["RGB Pixel<br/><b>Original:</b><br/>R: 100 = 01100100<br/>G: 150 = 10010110<br/>B: 200 = 11001000"] 
-        
-        M["<b>Message Bits:</b><br/>1, 1, 1"]
-        
-        N["<b>New Values:</b><br/>R: 101 = 01100101<br/>G: 151 = 10010111<br/>B: 201 = 11001001"]
-    end
-    
-    P -->|"Replace LSB"| M
-    M -->|"Embed"| N
+graph LR
+    A[Original Message] -->|Random Key Generation| B[AES-256 Encryption]
+    B --> C[Encrypted Data]
+    C -->|Embedding| D[Modified Image]
+    E[Original Image] -->|Pixel Modification| D
 ```
 
-### **🔹 AES-256 Encryption**
-Before embedding, messages are **encrypted** using **AES-256**:
+---
 
-1. **Generate a random 32-byte key**
-2. **Encrypt the message using AES-GCM**
-3. **Embed both the encrypted data & nonce in the image**
-4. **Same key is required for decryption**
+## 👀 See the Difference (or Not!)
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Original Image</b></td>
+      <td align="center"><b>Image with Secret</b></td>
+    </tr>
+    <tr>
+      <td><img src="sample-image.jpg" width="400"/></td>
+      <td><img src="sample-hidden-image.png" width="400"/></td>
+    </tr>
+  </table>
+
+  <i>Can you spot the difference? Nobody can—that's the point!</i>
+</div>
 
 ---
 
-## 🔒 **Security Considerations**
-<p align="center">
-  <img src="https://img.shields.io/badge/Invisible%20Data-Hidden%20in%20LSB-purple?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/AES--256%20Encryption-Ultra%20Secure-red?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Output%20Format-PNG%20(Safe%20from%20Lossy%20Compression)-blue?style=for-the-badge"/>
-</p>
+## 🧠 Technical Architecture
 
-✔ **Invisible Embedding**: Data is hidden at the **bit level**, undetectable to the **human eye**  
-✔ **AES-256 Security**: Even if extracted, the message remains encrypted  
-✔ **Lossless Image Format**: Output images are **PNG**, preventing **compression loss**  
+<div align="center">
 
----
+```mermaid
+classDiagram
+    class Main {
+        +main()
+    }
+    class Steganography {
+        +HideData()
+        +ExtractData()
+    }
+    class Crypto {
+        +Encrypt()
+        +Decrypt()
+        -GenerateKey()
+    }
+    class ImageProcessor {
+        +LoadImage()
+        +SaveImage()
+        +ModifyPixels()
+    }
+    class UI {
+        +PrintBanner()
+        +GetUserInput()
+        +DisplayResult()
+    }
+    
+    Main --> UI
+    Main --> Steganography
+    Steganography --> Crypto
+    Steganography --> ImageProcessor
+```
 
-## 🧪 **Technical Details**
-| Component | Description |
-|-----------|-------------|
-| `cmd/stego` | Main application entry point |
-| `internal/steganography` | Handles hiding and extracting data |
-| `internal/crypto` | Manages encryption and decryption |
-| `pkg/imageprocessing` | Processes and manipulates image data |
-| `internal/ui` | Command-line user interface |
+</div>
 
----
-
-## 📸 **Before and After Comparison**
-| Original Image | Image with Hidden Message |
-|---------------|---------------------------|
-| ![Original](sample-image.jpg) | ![Hidden](sample-hidden-image.png) |
-
-🖼️ *Notice how the images appear identical? That's the power of LSB steganography!*
-
----
-
-## 📝 **License**
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👥 **Contributing**
-Contributions are **welcome**! Follow these steps to contribute:
-
-1. **Fork** the repository  
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)  
-3. **Commit your changes** (`git commit -m 'Add some amazing feature'`)  
-4. **Push to the branch** (`git push origin feature/amazing-feature`)  
-5. **Open a Pull Request**  
+| Component | Purpose |
+|-----------|---------|
+| `cmd/stego` | Entry point and command handling |
+| `internal/steganography` | Core steganography algorithms |
+| `internal/crypto` | Encryption and decryption logic |
+| `pkg/imageprocessing` | Image manipulation utilities |
+| `internal/ui` | User interface and interaction |
 
 ---
 
-### 🎉 **Created with ❤️ by [pranaykumar2](https://github.com/pranaykumar2)**
+## 🛡️ Security Considerations
+
+<div align="center">
+  <table>
+    <tr>
+      <td width="33%" align="center"><b>Visual Security</b></td>
+      <td width="33%" align="center"><b>Cryptographic Security</b></td>
+      <td width="33%" align="center"><b>Format Security</b></td>
+    </tr>
+    <tr>
+      <td>Changes to the image are imperceptible to human eyes and basic analysis tools</td>
+      <td>Even if steganography is detected, the AES-256 encryption makes content unreadable without the key</td>
+      <td>Output as PNG preserves all data bits, preventing compression losses that occur with JPEG</td>
+    </tr>
+  </table>
+</div>
+
+---
+
+## 🤝 Contributing
+
+Contributions make the open-source community amazing! Any contributions you make are **greatly appreciated**.
+
+<div align="center">
+
+```mermaid
+gitGraph:
+    commit id: "Initial"
+    branch feature
+    checkout feature
+    commit id: "Feature"
+    commit id: "Tests"
+    checkout main
+    merge feature
+    commit id: "Release"
+```
+
+</div>
+
+1. **Fork** the project
+2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
+
+---
+
+<div align="center">
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## 🙏 Acknowledgements
+
+* Go Programming Language
+* All the amazing contributors
+* You, for checking out this project!
+
+<br>
+
+**Created with ❤️ by [pranaykumar2](https://github.com/pranaykumar2)**
+
+<br>
+
+[![GitHub followers](https://img.shields.io/github/followers/pranaykumar2?style=social)](https://github.com/pranaykumar2)
+[![Twitter Follow](https://img.shields.io/twitter/follow/pranaykumar2?style=social)](https://twitter.com/pranaykumar2)
+
+</div>
