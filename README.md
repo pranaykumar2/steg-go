@@ -2,7 +2,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="logo/logo1.png">
-  <img alt="Steg-Go Logo" src="logo/logo1.png" width="280">
+  <img alt="Steg-Go Logo" src="logo/logo1.png" width="460" height="130">
 </picture>
 
 ### *Hide secrets in plain sight*
