@@ -459,6 +459,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <br>
 
 [![GitHub followers](https://img.shields.io/github/followers/pranaykumar2?style=social)](https://github.com/pranaykumar2)
-[![Twitter Follow](https://img.shields.io/linkedin/follow/iamypranay?style=social)]([https://twitter.com/pranaykumar2](https://www.linkedin.com/in/iamypranay/))
+[![LinkedIn Follow](https://img.shields.io/linkedin/follow/iamypranay?style=social)](https://www.linkedin.com/in/iamypranay/)
 
 </div>
