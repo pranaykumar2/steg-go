@@ -29,7 +29,7 @@
 ---
 
 ## 📦 **Installation**
-### **🔧 From Source**
+### **🔧 From Source (Unix Based Systems)**
 ```bash
 # Clone the repository
 git clone https://github.com/pranaykumar2/steg-go.git
@@ -43,10 +43,105 @@ chmod +x build.sh
 
 # Run the application
 ./stego info
-```
 
-### **⚡ Prerequisites**
-- **Go 1.21 or higher**
+
+# 🌟 Running **Steg-Go** on Windows 🚀  
+
+Make **Steg-Go** work seamlessly on Windows with these simple steps!  
+
+---
+
+## 📌 **1. Install Go on Windows** 🛠️  
+
+1️⃣ Download the Go installer for Windows from 👉 [Go Official Site](https://golang.org/dl/)  
+2️⃣ Run the downloaded `.msi` file and follow the installation steps  
+3️⃣ Verify your installation by opening **Command Prompt** and running:  
+
+   ```sh
+   go version
+   ```  
+   ✅ If you see a version number, you're good to go!  
+
+---
+
+## 🔗 **2. Clone the Repository** 🌍  
+
+Open **Git Bash** or **Command Prompt** and run:  
+
+```sh
+git clone https://github.com/pranaykumar2/steg-go.git
+cd steg-go
+```  
+
+---
+
+## ⚙️ **3. Build the Application** 🔨  
+
+Since `build.sh` is meant for Unix systems, use these Windows-friendly commands instead:  
+
+```sh
+go mod tidy
+go build -o stego.exe ./cmd/stego
+```  
+
+---
+
+## 🚀 **4. Run the Application** 🎯  
+
+Once built, you can run **Steg-Go** using:  
+
+```sh
+.\stego.exe info
+```  
+
+### ➡️ Other Available Commands  
+
+| Command | Description |
+|---------|------------|
+| `.\stego.exe hide` | Hide data inside an image |
+| `.\stego.exe extract` | Extract hidden data from an image |
+
+---
+
+## 📜 **Alternative: Windows Batch File**   
+
+To simplify the process, create a batch file (`build.bat`) with the following content:  
+
+```batch
+@echo off
+echo Building Steganography Tool - Initial Setup...
+
+echo Tidying Go modules...
+go mod tidy
+
+echo Building application...
+go build -v -o stego.exe ./cmd/stego
+
+if %ERRORLEVEL% EQU 0 (
+    echo Build successful! Run: .\stego.exe
+) else (
+    echo Build failed! Check for errors.
+    exit /b 1
+)
+```  
+
+Run the batch file by executing:  
+
+```sh
+build.bat
+```  
+
+---
+
+## 🛠 **Troubleshooting** 🧐  
+
+💡 **Facing issues? Try these fixes:**  
+
+- 🔹 **Permission Denied?** → Run **Command Prompt** as Administrator  
+- 📂 **Image Not Found?** → Ensure the image file is in the correct directory or use the full path  
+- 🎨 **Weird Terminal UI?** → Try using **Windows Terminal** (supports ANSI color codes better)  
+
+🚀 **Enjoy using Steg-Go on Windows!** 🖼️🔐  
 
 ---
 
