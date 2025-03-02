@@ -15,9 +15,10 @@
 
 ---
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/icons/folder-secure.svg](https://github.com/pranaykumar2/steg-go/blob/4b2b1944ed712e3995003110b3da31a29e6c0aaa/logo/logo2.png" width="200" />
-</div>
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="logo/logo2.png">
+  <img alt="Steg-Go" src="logo/logo2.png" width="280">
+</picture>
 
 ## 🌟 What is Steg-Go?
 
