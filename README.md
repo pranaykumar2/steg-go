@@ -44,7 +44,7 @@ chmod +x build.sh
 # Run the application
 ./stego info
 
-
+```
 # 🌟 Running **Steg-Go** on Windows 🚀  
 
 Make **Steg-Go** work seamlessly on Windows with these simple steps!  
