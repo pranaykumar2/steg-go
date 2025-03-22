@@ -454,7 +454,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <br>
 
-**Created with ❤️ by [pranaykumar2](https://github.com/pranaykumar2)**
+**Created with ❤️ by [pranaykumar2](https://github.com/pranaykumar2), [Vinai2003](https://github.com/vinai2003)**
 
 <br>
 
