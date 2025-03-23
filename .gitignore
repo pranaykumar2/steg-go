@@ -53,3 +53,5 @@ debug
 .replit
 replit.nix
 .cache/
+gopath/
+go.sum
