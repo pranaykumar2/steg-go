@@ -23,6 +23,7 @@ const (
 type Encoder struct {
   processor *imageprocessing.ImageProcessor
   image     image.Image
+  fileHandler *FileHandler
 }
 
 func NewEncoder(imagePath string) (*Encoder, error) {
@@ -34,6 +35,7 @@ func NewEncoder(imagePath string) (*Encoder, error) {
   return &Encoder{
     processor: processor,
     image:     processor.GetImage(),
+    fileHandler: NewFileHandler(),
   }, nil
 }
 
@@ -42,7 +44,9 @@ func (e *Encoder) Hide(data []byte) error {
   width := bounds.Max.X - bounds.Min.X
   height := bounds.Max.Y - bounds.Min.Y
 
-  totalDataSize := len(headerPattern) + 1 + 8 + len(data)
+  metadata := []byte{TextModeEnabled}
+
+  totalDataSize := len(headerPattern) + 1 + 8 + len(metadata) + len(data)
   requiredBits := totalDataSize * 8
   availableBits := width * height * 3
 
@@ -74,13 +78,73 @@ func (e *Encoder) Hide(data []byte) error {
   writeByte(output, formatVersion, &bitIndex, width, height)
 
   lengthBytes := make([]byte, 8)
-  binary.BigEndian.PutUint64(lengthBytes, uint64(len(data)))
+  binary.BigEndian.PutUint64(lengthBytes, uint64(len(metadata) + len(data)))
   for i := 0; i < len(lengthBytes); i++ {
     writeByte(output, lengthBytes[i], &bitIndex, width, height)
   }
 
+  for i := 0; i < len(metadata); i++ {
+    writeByte(output, metadata[i], &bitIndex, width, height)
+  }
+
   for i := 0; i < len(data); i++ {
     writeByte(output, data[i], &bitIndex, width, height)
+  }
+
+  e.processor = &imageprocessing.ImageProcessor{}
+  e.image = output
+  return nil
+}
+
+func (e *Encoder) HideFile(fileData []byte, metadata *FileMetadata) error {
+  bounds := e.image.Bounds()
+  width := bounds.Max.X - bounds.Min.X
+  height := bounds.Max.Y - bounds.Min.Y
+
+  metadataBytes := e.fileHandler.SerializeMetadata(metadata)
+
+  totalDataSize := len(headerPattern) + 1 + 8 + len(metadataBytes) + len(fileData)
+  requiredBits := totalDataSize * 8
+  availableBits := width * height * 3
+
+  if requiredBits > availableBits {
+    return fmt.Errorf("image too small, need %d bits but have %d", requiredBits, availableBits)
+  }
+
+  output := image.NewRGBA(bounds)
+
+  for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+    for x := bounds.Min.X; x < bounds.Max.X; x++ {
+      r, g, b, a := e.image.At(x, y).RGBA()
+      output.Set(x, y, color.RGBA{
+        R: uint8(r >> 8),
+        G: uint8(g >> 8),
+        B: uint8(b >> 8),
+        A: uint8(a >> 8),
+      })
+    }
+  }
+
+  bitIndex := 0
+
+  for i := 0; i < len(headerPattern); i++ {
+    b := headerPattern[i]
+    writeByte(output, b, &bitIndex, width, height)
+  }
+
+  writeByte(output, formatVersion, &bitIndex, width, height)
+  lengthBytes := make([]byte, 8)
+  binary.BigEndian.PutUint64(lengthBytes, uint64(len(metadataBytes) + len(fileData)))
+  for i := 0; i < len(lengthBytes); i++ {
+    writeByte(output, lengthBytes[i], &bitIndex, width, height)
+  }
+
+  for i := 0; i < len(metadataBytes); i++ {
+    writeByte(output, metadataBytes[i], &bitIndex, width, height)
+  }
+
+  for i := 0; i < len(fileData); i++ {
+    writeByte(output, fileData[i], &bitIndex, width, height)
   }
 
   e.processor = &imageprocessing.ImageProcessor{}
