@@ -55,3 +55,6 @@ replit.nix
 .cache/
 gopath/
 go.sum
+temp
+uploads
+test-images
