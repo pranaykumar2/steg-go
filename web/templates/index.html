@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StegGo | Image Steganography Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --primary-dark: #0066ff;
+            --secondary: #ff006e;
+            --dark: #1b1b2f;
+            --light: #f8f9fa;
+            --gray: #495057;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+            --border-radius: 8px;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-decoration {
+            position: absolute;
+            right: -10%;
+            top: -50%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .header-decoration:before {
+            content: '';
+            position: absolute;
+            left: -100px;
+            top: 100px;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.75rem;
+        }
+
+        .header-subtitle {
+            margin-top: 0.5rem;
+            font-weight: 300;
+            font-size: 1rem;
+            max-width: 600px;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .tab-item {
+            flex: 1;
+            text-align: center;
+            padding: 1.25rem 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-item.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+            background-color: rgba(58, 134, 255, 0.05);
+        }
+
+        .tab-item:hover:not(.active) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.25);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .input-group {
+            display: flex;
+            width: 100%;
+        }
+
+        .input-group .form-control {
+            flex: 1;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .input-group-append {
+            display: flex;
+        }
+
+        .input-group-append button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Upload Areas */
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: var(--border-radius);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: #f9f9f9;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--primary);
+            background-color: rgba(58, 134, 255, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area p {
+            margin: 0;
+            color: var(--gray);
+        }
+
+        .upload-area .upload-hint {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            color: #888;
+        }
+
+        .file-upload-area {
+            border-color: var(--secondary);
+        }
+
+        .file-upload-area .upload-icon {
+            color: var(--secondary);
+        }
+
+        .file-upload-area:hover, .file-upload-area.dragover {
+            border-color: var(--secondary);
+            background-color: rgba(255, 0, 110, 0.05);
+        }
+
+        /* Preview Containers */
+        .preview-container, .file-preview-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1rem;
+            object-fit: contain;
+        }
+
+        .preview-info {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-right: 1rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 60%;
+        }
+
+        .file-size {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .remove-file {
+            background: transparent;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .remove-file:hover {
+            color: #c82333;
+        }
+
+        /* File Preview */
+        .file-preview {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            width: 100%;
+        }
+
+        .file-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--secondary);
+        }
+
+        .file-details {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(58, 134, 255, 0.25);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background-color: #e0005d;
+            box-shadow: 0 4px 12px rgba(255, 0, 110, 0.25);
+        }
+
+        .btn-outline-secondary {
+            background-color: transparent;
+            border: 1px solid #ddd;
+            color: var(--gray);
+        }
+
+        .btn-outline-secondary:hover:not(:disabled) {
+            background-color: #f1f1f1;
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Capacity Indicator */
+        #capacity-indicator {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .capacity-container {
+            background-color: #f1f1f1;
+            border-radius: 12px;
+            height: 8px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .capacity-bar-fill {
+            height: 100%;
+            width: 0;
+            transition: width 0.4s ease;
+        }
+
+        .capacity-bar-fill.green {
+            background-color: var(--success);
+        }
+
+        .capacity-bar-fill.orange {
+            background-color: var(--warning);
+        }
+
+        .capacity-bar-fill.red {
+            background-color: var(--danger);
+        }
+
+        #capacity-text {
+            font-size: 0.85rem;
+            color: var(--gray);
+            text-align: right;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+            margin-top: 2rem;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-image-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-image {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        .result-details {
+            margin-bottom: 1.5rem;
+        }
+
+        .details-container {
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin-top: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            width: 120px;
+            min-width: 120px;
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        /* Extracted Text */
+        .extracted-text {
+            background-color: #f9f9f9;
+            border-radius: var(--border-radius);
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .extracted-text pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Analysis Sections */
+        .analysis-section {
+            margin-bottom: 2rem;
+        }
+
+        .analysis-section h4 {
+            margin-bottom: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .exif-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .exif-table th, .exif-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .exif-table th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+        }
+
+        .exif-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: var(--border-radius);
+            border: 1px solid #eee;
+        }
+
+        .risk-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .risk-list li {
+            padding: 0.5rem 0;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .risk-list li:before {
+            content: '\f071';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--warning);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Toast Notifications */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            min-width: 250px;
+            max-width: 350px;
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s ease, fadeOut 0.5s ease 2.5s forwards;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning);
+        }
+
+        .toast-icon {
+            margin-right: 12px;
+            font-size: 1.25rem;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger);
+        }
+
+        .toast.warning .toast-icon {
+            color: var(--warning);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .toast-message {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .toast-close {
+            background: transparent;
+            border: none;
+            color: #aaa;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: color 0.2s;
+        }
+
+        .toast-close:hover {
+            color: var(--dark);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1.5rem;
+            }
+
+            main {
+                padding: 0 1.5rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-item {
+                padding: 1rem;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .col-md-6 {
+                width: 100%;
+            }
+
+            .card-body {
+                padding: 1.25rem;
+            }
+
+            .detail-label {
+                width: 100px;
+                min-width: 100px;
+            }
+        }
+
+        /* Utility Classes */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -1rem;
+        }
+
+        .col-md-6 {
+            width: 50%;
+            padding: 1rem;
+        }
+
+        .mt-3 {
+            margin-top: 1.5rem;
+        }
+
+        .mt-4 {
+            margin-top: 2rem;
+        }
+
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-decoration"></div>
+    <div class="header-container">
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>StegGo</span>
+        </div>
+        <p class="header-subtitle">A powerful tool for hiding messages and files inside images using steganography.</p>
+    </div>
+</header>
+
+<main>
+    <div class="tabs">
+        <div class="tab-item active" data-tab="hide-text">
+            <i class="fas fa-font"></i>
+            <span>Hide Text</span>
+        </div>
+        <div class="tab-item" data-tab="hide-file">
+            <i class="fas fa-file-alt"></i>
+            <span>Hide File</span>
+        </div>
+        <div class="tab-item" data-tab="extract">
+            <i class="fas fa-unlock-alt"></i>
+            <span>Extract</span>
+        </div>
+        <div class="tab-item" data-tab="analyze">
+            <i class="fas fa-search"></i>
+            <span>Analyze</span>
+        </div>
+    </div>
+
+    <!-- Hide Text Tab -->
+    <div class="tab-content active" id="hide-text-tab">
+        <div class="card">
+            <div class="card-header">
+                <h2>Hide Text in Image</h2>
+            </div>
+            <div class="card-body">
+                <form id="hide-text-form">
+                    <div class="upload-area" id="hide-text-upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p>Drag & drop an image here, or click to select</p>
+                        <p class="upload-hint">PNG, JPG up to 50MB</p>
+                    </div>
+                    <input type="file" id="hide-text-file" accept="image/png,image/jpeg" hidden>
+
+                    <div id="hide-text-preview-container" class="preview-container"></div>
+
+                    <div class="form-group">
+                        <label for="hide-text-message">Message to Hide:</label>
+                        <textarea id="hide-text-message" class="form-control" placeholder="Enter your secret message here..."></textarea>
+                    </div>
+
+                    <div id="capacity-indicator">
+                        <div class="capacity-container">
+                            <div id="capacity-bar" class="capacity-bar-fill green"></div>
+                        </div>
+                        <div id="capacity-text">0 / 0 bytes (0%)</div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary" disabled>
+                            <i class="fas fa-lock"></i> Hide Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="hide-text-results" class="results-section card">
+            <div class="card-header">
+                <h2>Message Hidden Successfully</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="result-image-container">
+                            <img id="hide-text-result-img" alt="Steganographic image with hidden message" class="result-image">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="result-details">
+                            <div class="form-group">
+                                <label for="hide-text-key">Decryption Key:</label>
+                                <div class="input-group">
+                                    <input type="text" id="hide-text-key" class="form-control" readonly>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('hide-text-key')">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <small class="form-text text-muted">Save this key to extract the message later.</small>
+                            </div>
+                            <div class="mt-3">
+                                <a id="hide-text-download" href="#" class="btn btn-primary" download="stego-image.png">
+                                    <i class="fas fa-download"></i> Download Image
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hide File Tab -->
+    <div class="tab-content" id="hide-file-tab">
+        <div class="card">
+            <div class="card-header">
+                <h2>Hide File in Image</h2>
+            </div>
+            <div class="card-body">
+                <form id="hide-file-form">
+                    <div class="form-group">
+                        <label>Cover Image:</label>
+                        <div class="upload-area" id="hide-file-upload-area">
+                            <div class="upload-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <p>Drag & drop an image here, or click to select</p>
+                            <p class="upload-hint">PNG, JPG up to 50MB</p>
+                        </div>
+                        <input type="file" id="hide-file-image" accept="image/png,image/jpeg" hidden>
+                        <div id="hide-file-preview-container" class="preview-container"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>File to Hide:</label>
+                        <div class="upload-area file-upload-area" id="hide-file-file-area">
+                            <div class="upload-icon">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                            <p>Drag & drop a file here, or click to select</p>
+                            <p class="upload-hint">Any file type up to 50MB</p>
+                        </div>
+                        <input type="file" id="hide-file-file" hidden>
+                        <div id="hide-file-file-preview-container" class="file-preview-container"></div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary" disabled>
+                            <i class="fas fa-lock"></i> Hide File
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Extract Tab -->
+    <div class="tab-content" id="extract-tab">
+        <div class="card">
+            <div class="card-header">
+                <h2>Extract Hidden Content</h2>
+            </div>
+            <div class="card-body">
+                <form id="extract-form">
+                    <div class="upload-area" id="extract-upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p>Drag & drop steganographic image here, or click to select</p>
+                        <p class="upload-hint">PNG, JPG up to 50MB</p>
+                    </div>
+                    <input type="file" id="extract-file" accept="image/png,image/jpeg" hidden>
+
+                    <div id="extract-preview-container" class="preview-container"></div>
+
+                    <div class="form-group">
+                        <label for="extract-key">Decryption Key:</label>
+                        <input type="text" id="extract-key" class="form-control" placeholder="Enter the 64-character decryption key">
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary" disabled>
+                            <i class="fas fa-unlock-alt"></i> Extract Content
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analyze Tab -->
+    <div class="tab-content" id="analyze-tab">
+        <div class="card">
+            <div class="card-header">
+                <h2>Analyze Image</h2>
+            </div>
+            <div class="card-body">
+                <form id="analyze-form">
+                    <div class="upload-area" id="analyze-upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p>Drag & drop an image here, or click to select</p>
+                        <p class="upload-hint">PNG, JPG up to 50MB</p>
+                    </div>
+                    <input type="file" id="analyze-file" accept="image/png,image/jpeg" hidden>
+
+                    <div id="analyze-preview-container" class="preview-container"></div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary" disabled>
+                            <i class="fas fa-search"></i> Analyze Image
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Toast Container -->
+<div id="toast-container"></div>
+
+<script>
+    // Tab Switching
+    document.querySelectorAll('.tab-item').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-item').forEach(t => {
+                t.classList.remove('active');
+            });
+
+            // Add active class to clicked tab
+            tab.classList.add('active');
+
+            // Hide all tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show corresponding tab content
+            const tabId = tab.getAttribute('data-tab') + '-tab';
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Toast Notification Function
+    function showToast(type, title, message) {
+        const toastContainer = document.getElementById('toast-container');
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+
+        let iconClass = '';
+        switch(type) {
+            case 'success':
+                iconClass = 'fa-check-circle';
+                break;
+            case 'error':
+                iconClass = 'fa-exclamation-circle';
+                break;
+            case 'warning':
+                iconClass = 'fa-exclamation-triangle';
+                break;
+            default:
+                iconClass = 'fa-info-circle';
+        }
+
+        toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+        toastContainer.appendChild(toast);
+
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+
+        // Close button
+        const closeButton = toast.querySelector('.toast-close');
+        closeButton.addEventListener('click', () => {
+            toast.remove();
+        });
+    }
+
+    // Copy to Clipboard function
+    function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+
+        let text;
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+            text = element.value;
+        } else {
+            text = element.textContent;
+        }
+
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('success', 'Copied!', 'Text copied to clipboard.');
+        }, (err) => {
+            console.error('Error copying text: ', err);
+            showToast('error', 'Error', 'Failed to copy text.');
+        });
+    }
+</script>
+
+<!-- Load your existing JavaScript files -->
+<script src="../static/js/api.js"></script>
+<script src="../static/js/validation.js"></script>
+<script src="../static/js/fileHandlers.js"></script>
+<script src="../static/js/ui.js"></script>
+<script src="/../static/js/main.js"></script>
+</body>
+</html>

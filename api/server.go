@@ -61,7 +61,7 @@ func (s *Server) setupMiddleware() {
 	s.router.Use(middleware.RateLimit(100, 1*time.Minute))
 
 	// File size limits - 10MB max upload
-	s.router.MaxMultipartMemory = 10 << 20
+	s.router.MaxMultipartMemory = 50 << 20
 }
 
 // setupRoutes configures all API routes
@@ -91,15 +91,42 @@ func (s *Server) setupRoutes() {
 	// Swagger documentation endpoint
 	s.router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// Redirect root to Swagger UI
+	// Serve static files for the Web UI
+	s.router.Static("/static", "./web/static")
+
+	// Handle Web UI routes
+	s.setupWebUIRoutes()
+}
+
+// setupWebUIRoutes configures routes for the web interface
+func (s *Server) setupWebUIRoutes() {
+	// Serve index.html at root
 	s.router.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/swagger/index.html")
+		c.File("./web/templates/index.html")
+	})
+
+	// For any route not matched by API or static files,
+	// serve index.html to support SPA routing
+	s.router.NoRoute(func(c *gin.Context) {
+		// If it's an API request that wasn't matched, return 404 JSON
+		if len(c.Request.URL.Path) >= 4 && c.Request.URL.Path[0:4] == "/api" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"success": false,
+				"error":   "API endpoint not found",
+			})
+			return
+		}
+
+		// If not an API request, serve the SPA
+		c.File("./web/templates/index.html")
 	})
 }
 
 // Start begins listening for requests
 func (s *Server) Start() error {
-	log.Printf("Starting StegGo API server on port %s", s.port)
+	log.Printf("Starting StegGo server on port %s", s.port)
+	log.Printf("Current time: %s", time.Now().UTC().Format("2006-01-02 15:04:05"))
+	log.Printf("Web UI available at http://localhost:%s", s.port)
 	log.Printf("Swagger documentation available at http://localhost:%s/swagger/index.html", s.port)
 	return s.router.Run(fmt.Sprintf(":%s", s.port))
 }

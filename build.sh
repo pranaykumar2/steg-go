@@ -6,15 +6,15 @@ RED='\033[0;31m'
 YELLOW='\033[0;33m'
 NC='\033[0m'
 
-echo -e "${BLUE}Building StegGo - Image Steganography Tool (CLI & API)${NC}"
+echo -e "${BLUE}Building StegGo - Image Steganography Tool (CLI & API/Web Server)${NC}"
 echo -e "${BLUE}===============================================${NC}"
-echo -e "${YELLOW}Current Date: 2025-03-24 03:08:08 (UTC)${NC}"
+echo -e "${YELLOW}Current Date: 2025-03-28 14:07:35 (UTC)${NC}"
 echo -e "${YELLOW}User: pranaykumar2${NC}"
 echo
 
 # Check command-line arguments
 START_SERVER=false
-if [[ "$1" == "--start-api" ]]; then
+if [[ "$1" == "--start-server" ]]; then
     START_SERVER=true
 fi
 
@@ -23,6 +23,7 @@ echo -e "${BLUE}Creating required directories...${NC}"
 mkdir -p uploads
 mkdir -p temp
 mkdir -p test-images
+mkdir -p web/static/img
 
 # Update dependencies
 echo -e "${BLUE}Tidying modules...${NC}"
@@ -40,15 +41,15 @@ else
     exit 1
 fi
 
-# Build API server
-echo -e "${BLUE}Building API server...${NC}"
-go build -v -o steggo-api ./cmd/api
+# Build API/Web server
+echo -e "${BLUE}Building API/Web server...${NC}"
+go build -v -o steggo-server ./cmd/api
 
 if [ $? -eq 0 ]; then
-    echo -e "${GREEN}API server build successful!${NC}"
-    chmod +x steggo-api
+    echo -e "${GREEN}API/Web server build successful!${NC}"
+    chmod +x steggo-server
 else
-    echo -e "${RED}API server build failed!${NC}"
+    echo -e "${RED}API/Web server build failed!${NC}"
     exit 1
 fi
 
@@ -59,22 +60,25 @@ echo -e "${GREEN}=====================================================${NC}"
 echo
 echo -e "${BLUE}You can now run:${NC}"
 echo -e "  ${YELLOW}./stego${NC}               - For the CLI application"
-echo -e "  ${YELLOW}./steggo-api${NC}          - For the API server"
+echo -e "  ${YELLOW}./steggo-server${NC}       - For the API/Web server"
+echo
+echo -e "${BLUE}Web Interface:${NC}"
+echo -e "  Start the server and visit: ${YELLOW}http://localhost:8080${NC}"
 echo
 echo -e "${BLUE}API Documentation:${NC}"
-echo -e "  Start the API server and visit: ${YELLOW}http://localhost:8080/swagger/index.html${NC}"
+echo -e "  Start the server and visit: ${YELLOW}http://localhost:8080/swagger/index.html${NC}"
 echo
 
 # Check for test images
 if [ ! -f "./test-images/sample.png" ]; then
     echo -e "${YELLOW}Note: No test images found in ./test-images directory.${NC}"
-    echo -e "      Add test images for API testing."
+    echo -e "      Add test images for testing."
 fi
 
-# Optionally start the API server
+# Optionally start the server
 if [ "$START_SERVER" = true ]; then
-    echo -e "${BLUE}Starting API server...${NC}"
+    echo -e "${BLUE}Starting API/Web server...${NC}"
     echo -e "${BLUE}Press Ctrl+C to stop the server${NC}"
     echo
-    ./steggo-api
+    ./steggo-server
 fi

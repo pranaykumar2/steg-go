@@ -19,8 +19,14 @@ func SecurityHeaders() gin.HandlerFunc {
 		// Control what features and APIs can be used in the browser
 		c.Header("Feature-Policy", "camera 'none'; microphone 'none'")
 
-		// Content Security Policy
-		c.Header("Content-Security-Policy", "default-src 'self'")
+		// Content Security Policy - More permissive for web UI with blob support
+		c.Header("Content-Security-Policy",
+            "default-src 'self'; " +
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+            "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+            "img-src 'self' data: blob:; " + // Added 'blob:' here
+            "connect-src 'self'")
 
 		c.Next()
 	}
