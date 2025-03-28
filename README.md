@@ -440,6 +440,55 @@ gitGraph:
 
 ---
 
+## 🖥️ Running the Frontend
+
+To run the frontend, follow these steps:
+
+1. **Navigate to the frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Open `index.html` in your web browser**
+
+The frontend provides a sleek and interactive interface to interact with the Steg-Go API.
+
+---
+
+## 🌐 Using the Frontend
+
+The frontend allows you to:
+
+- **Hide Text**: Hide a secret message inside an image
+- **Hide File**: Hide a file inside an image
+- **Extract Content**: Extract hidden content from an image
+- **Analyze Metadata**: Analyze the metadata of an image
+
+### Example Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center"><b>Hide Text</b></td>
+      <td align="center"><b>Hide File</b></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/hide-text.png" width="400"/></td>
+      <td><img src="screenshots/hide-file.png" width="400"/></td>
+    </tr>
+    <tr>
+      <td align="center"><b>Extract Content</b></td>
+      <td align="center"><b>Analyze Metadata</b></td>
+    </tr>
+    <tr>
+      <td><img src="screenshots/extract-content.png" width="400"/></td>
+      <td><img src="screenshots/analyze-metadata.png" width="400"/></td>
+    </tr>
+  </table>
+</div>
+
+---
+
 <div align="center">
 
 ## 📄 License

@@ -88,11 +88,17 @@ func (s *Server) setupRoutes() {
 		v1.GET("/files/:filename", handlers.ServeFile)
 	}
 
+	// Serve frontend files
+	s.router.Static("/frontend", "./frontend")
+	s.router.GET("/", func(c *gin.Context) {
+		c.File("./frontend/index.html")
+	})
+
 	// Swagger documentation endpoint
 	s.router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Redirect root to Swagger UI
-	s.router.GET("/", func(c *gin.Context) {
+	s.router.GET("/swagger", func(c *gin.Context) {
 		c.Redirect(http.StatusMovedPermanently, "/swagger/index.html")
 	})
 }

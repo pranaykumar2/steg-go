@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steg-Go Frontend</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Steg-Go Frontend</h1>
+    </header>
+    <main>
+        <section id="hide-text">
+            <h2>Hide Text</h2>
+            <form id="hide-text-form">
+                <label for="hide-text-image">Image:</label>
+                <input type="file" id="hide-text-image" name="image" accept="image/*" required>
+                <label for="hide-text-message">Message:</label>
+                <textarea id="hide-text-message" name="message" required></textarea>
+                <button type="submit">Hide Text</button>
+            </form>
+        </section>
+        <section id="hide-file">
+            <h2>Hide File</h2>
+            <form id="hide-file-form">
+                <label for="hide-file-image">Image:</label>
+                <input type="file" id="hide-file-image" name="image" accept="image/*" required>
+                <label for="hide-file-file">File:</label>
+                <input type="file" id="hide-file-file" name="file" required>
+                <button type="submit">Hide File</button>
+            </form>
+        </section>
+        <section id="extract-content">
+            <h2>Extract Content</h2>
+            <form id="extract-content-form">
+                <label for="extract-content-image">Image:</label>
+                <input type="file" id="extract-content-image" name="image" accept="image/*" required>
+                <label for="extract-content-key">Key:</label>
+                <input type="text" id="extract-content-key" name="key" required>
+                <button type="submit">Extract Content</button>
+            </form>
+        </section>
+        <section id="analyze-metadata">
+            <h2>Analyze Metadata</h2>
+            <form id="analyze-metadata-form">
+                <label for="analyze-metadata-image">Image:</label>
+                <input type="file" id="analyze-metadata-image" name="image" accept="image/*" required>
+                <button type="submit">Analyze Metadata</button>
+            </form>
+        </section>
+        <section id="api-response">
+            <h2>API Response</h2>
+            <pre id="api-response-content"></pre>
+        </section>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+</html>
