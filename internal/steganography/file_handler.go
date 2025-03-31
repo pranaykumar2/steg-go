@@ -49,7 +49,11 @@ func (fh *FileHandler) SaveFileContent(data []byte, metadata *FileMetadata, outp
   if err == nil && fileInfo.IsDir() {
     outputPath = filepath.Join(outputPath, metadata.OriginalName)
   } else if filepath.Ext(outputPath) == "" {
-    outputPath = outputPath + metadata.FileExt
+    if metadata.FileExt != "" {
+      outputPath = outputPath + metadata.FileExt
+    } else if ext := filepath.Ext(metadata.OriginalName); ext != "" {
+      outputPath = outputPath + ext
+    }
   }
 
   return os.WriteFile(outputPath, data, 0644)
@@ -62,13 +66,24 @@ func (fh *FileHandler) SerializeMetadata(metadata *FileMetadata) []byte {
 
   binary.BigEndian.PutUint64(result[1:9], metadata.FileSize)
 
-  nameBytes := []byte(metadata.OriginalName)
+  originalName := metadata.OriginalName
+
+  nameBytes := []byte(originalName)
   if len(nameBytes) > 127 {
     nameBytes = nameBytes[:127]
   }
   copy(result[9:9+len(nameBytes)], nameBytes)
 
   result[9+len(nameBytes)] = 0
+
+  extBytes := []byte(metadata.FileExt)
+  if len(extBytes) > 10 {
+    extBytes = extBytes[:10] // Limit extension length
+  }
+
+  result[137] = byte(len(extBytes))
+
+  copy(result[138:138+len(extBytes)], extBytes)
 
   return result
 }
@@ -85,15 +100,32 @@ func (fh *FileHandler) DeserializeMetadata(data []byte) (*FileMetadata, error) {
   fileSize := binary.BigEndian.Uint64(data[1:9])
 
   filenameEnd := 9
-  for i := 9; i < len(data); i++ {
+  for i := 9; i < 137; i++ {
     if data[i] == 0 {
       filenameEnd = i
       break
     }
   }
-
   originalName := string(data[9:filenameEnd])
-  fileExt := filepath.Ext(originalName)
+
+  var fileExt string
+
+  if len(data) > 138 {
+    extLen := int(data[137])
+    if extLen > 0 && extLen <= 10 && 138+extLen <= len(data) {
+      fileExt = string(data[138:138+extLen])
+    }
+  }
+
+  if fileExt == "" {
+    fileExt = filepath.Ext(originalName)
+  }
+
+  if fileExt != "" && !strings.HasSuffix(originalName, fileExt) {
+    if filepath.Ext(originalName) == "" {
+      originalName = originalName + fileExt
+    }
+  }
 
   return &FileMetadata{
     OriginalName: originalName,
@@ -105,7 +137,6 @@ func (fh *FileHandler) DeserializeMetadata(data []byte) (*FileMetadata, error) {
 func (fh *FileHandler) IsFileSupported(filePath string) (bool, string) {
   ext := strings.ToLower(filepath.Ext(filePath))
 
-  // List of commonly supported file types
   supportedTypes := map[string]bool{
     ".pdf":  true,
     ".doc":  true,
@@ -122,6 +153,35 @@ func (fh *FileHandler) IsFileSupported(filePath string) (bool, string) {
     ".json": true,
     ".xml":  true,
     ".csv":  true,
+    ".xlsx": true,
+    ".pptx": true,
+    ".epub": true,
+    ".mp4":  true,
+    ".avi":  true,
+    ".mov":  true,
+    ".svg":  true,
+    ".html": true,
+    ".css":  true,
+    ".js":   true,
+    ".py":   true,
+    ".java": true,
+    ".go":   true,
+    ".cpp":  true,
+    ".h":    true,
+    ".c":    true,
+    ".rb":   true,
+    ".php":  true,
+    ".sql":  true,
+    ".md":   true,
+    ".rtf":  true,
+    ".tar":  true,
+    ".gz":   true,
+    ".7z":   true,
+    ".rar":  true,
+    ".ico":  true,
+    ".psd":  true,
+    ".ai":   true,
+    ".customization": true,
   }
 
   return supportedTypes[ext], ext
