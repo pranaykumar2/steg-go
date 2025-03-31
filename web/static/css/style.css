@@ -16,21 +16,22 @@
     --light-warning: #f59e0b;
     --light-error: #ef4444;
 
-    /* Dark theme colors */
-    --dark-bg-primary: #202533;
-    --dark-bg-secondary: #2a2f40;
-    --dark-shadow-light: rgba(73, 80, 105, 0.5);
-    --dark-shadow-dark: rgba(17, 20, 29, 0.7);
-    --dark-text-primary: #e1e7f5;
-    --dark-text-secondary: #a5b0cf;
-    --dark-text-tertiary: #7986a8;
-    --dark-border: rgba(55, 65, 95, 0.8);
-    --dark-accent-primary: #8a70ff;
-    --dark-accent-secondary: #9a86ff;
-    --dark-accent-tertiary: #5c9dff;
-    --dark-success: #34d399;
-    --dark-warning: #fbbf24;
-    --dark-error: #f87171;
+    /* Enhanced Dark theme colors */
+    --dark-bg-primary: #1a1d29;
+    --dark-bg-secondary: #232736;
+    --dark-shadow-light: rgba(45, 50, 80, 0.3);
+    --dark-shadow-dark: rgba(10, 12, 26, 0.7);
+    --dark-text-primary: #eef2ff;
+    --dark-text-secondary: #b3bedf;
+    --dark-text-tertiary: #8890b5;
+    --dark-border: rgba(60, 70, 110, 0.3);
+
+    --dark-accent-primary: #7c5dfa;
+    --dark-accent-secondary: #9277ff;
+    --dark-accent-tertiary: #4f8eff;
+    --dark-success: #3ecf8e;
+    --dark-warning: #ffba2d;
+    --dark-error: #ff6363;
 
     /* Spacing variables */
     --space-1: 0.25rem;  /*  4px */
@@ -1412,4 +1413,162 @@ a.neu-flat:active {
 
 .border-radius-full {
     border-radius: 9999px !important;
+}
+/* ===== DARK MODE SPECIFIC ENHANCEMENTS ===== */
+
+/* Improved card styling in dark mode */
+[data-theme="dark"] .neu-flat {
+    background-color: var(--dark-bg-primary);
+    box-shadow: 5px 5px 12px var(--dark-shadow-dark),
+    -5px -5px 12px var(--dark-shadow-light);
+}
+
+/* Better button hover effects in dark mode */
+[data-theme="dark"] button.neu-flat:hover:not(:disabled),
+[data-theme="dark"] a.neu-flat:hover {
+    box-shadow: 6px 6px 16px var(--dark-shadow-dark),
+    -6px -6px 16px var(--dark-shadow-light);
+    transform: translateY(-3px);
+}
+
+/* Improved inset elements for dark mode */
+[data-theme="dark"] .neu-inset {
+    background-color: rgba(22, 24, 36, 0.6);
+    box-shadow: inset 3px 3px 5px var(--dark-shadow-dark),
+    inset -2px -2px 5px var(--dark-shadow-light);
+}
+
+/* Enhanced form controls for dark mode */
+[data-theme="dark"] .form-control {
+    color: var(--dark-text-primary);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: rgba(125, 135, 175, 0.5);
+}
+
+/* Gradient text effects for headers in dark mode */
+[data-theme="dark"] .header-intro h2 {
+    background: linear-gradient(45deg, var(--dark-accent-primary), var(--dark-accent-tertiary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 10px rgba(124, 93, 250, 0.3);
+}
+
+[data-theme="dark"] .header-text h3 {
+    color: var(--dark-text-primary);
+}
+
+
+/* Enhanced button styling in dark mode */
+[data-theme="dark"] .btn-primary {
+    background: linear-gradient(135deg, var(--dark-accent-primary), var(--dark-accent-secondary));
+    box-shadow: 0 4px 10px rgba(124, 93, 250, 0.3);
+}
+
+[data-theme="dark"] .btn-primary:hover:not(:disabled) {
+    box-shadow: 0 6px 15px rgba(124, 93, 250, 0.4);
+    transform: translateY(-3px);
+}
+
+/* Custom scrollbar for dark mode */
+[data-theme="dark"] ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--dark-bg-secondary);
+    border-radius: 5px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--dark-accent-primary), var(--dark-accent-secondary));
+    border-radius: 5px;
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--dark-accent-secondary), var(--dark-accent-tertiary));
+}
+
+/* Improved field focus states for dark mode */
+[data-theme="dark"] .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(124, 93, 250, 0.3);
+}
+
+/* Enhanced upload area styling */
+[data-theme="dark"] .upload-area {
+    background-color: rgba(25, 28, 40, 0.5);
+    box-shadow: inset 3px 3px 5px var(--dark-shadow-dark),
+    inset -2px -2px 5px var(--dark-shadow-light),
+    0 10px 20px rgba(10, 12, 26, 0.1);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .upload-area:hover {
+    transform: translateY(-5px);
+    box-shadow: inset 3px 3px 5px var(--dark-shadow-dark),
+    inset -2px -2px 5px var(--dark-shadow-light),
+    0 15px 30px rgba(10, 12, 26, 0.2);
+}
+
+[data-theme="dark"] .upload-icon {
+    filter: drop-shadow(0 3px 5px rgba(124, 93, 250, 0.3));
+}
+
+/* Better visual feedback for active tabs */
+[data-theme="dark"] .tab-btn.active {
+    color: var(--dark-accent-primary);
+}
+
+[data-theme="dark"] .tab-btn.active i {
+    color: var(--dark-accent-primary);
+    filter: drop-shadow(0 3px 5px rgba(124, 93, 250, 0.3));
+}
+
+[data-theme="dark"] .tab-btn::after {
+    background: linear-gradient(to right, var(--dark-accent-primary), var(--dark-accent-tertiary));
+    box-shadow: 0 1px 5px rgba(124, 93, 250, 0.5);
+}
+
+/* Improve card header styling */
+[data-theme="dark"] .card-header {
+    background-color: rgba(23, 24, 41, 0.7);
+    border-bottom: 1px solid rgba(60, 70, 110, 0.15);
+}
+
+[data-theme="dark"] .header-icon {
+    box-shadow: inset 2px 2px 4px var(--dark-shadow-dark),
+    inset -2px -2px 4px var(--dark-shadow-light);
+    background-color: rgba(22, 24, 36, 0.8);
+}
+
+/* Enhanced capacity bar styling */
+[data-theme="dark"] .capacity-fill {
+    background: linear-gradient(to right, var(--dark-accent-primary), var(--dark-accent-tertiary));
+    box-shadow: 0 2px 8px rgba(124, 93, 250, 0.3);
+}
+
+/* Improved extraction result styling */
+[data-theme="dark"] .extracted-text {
+    background-color: rgba(22, 24, 36, 0.7);
+}
+
+[data-theme="dark"] .extracted-text pre {
+    color: var(--dark-text-primary);
+}
+
+/* File details and metadata containers */
+[data-theme="dark"] .details-container,
+[data-theme="dark"] .file-details {
+    background-color: rgba(22, 24, 36, 0.7);
+}
+
+/* Glow effect for icon buttons */
+[data-theme="dark"] .icon-btn:hover {
+    color: var(--dark-accent-primary);
+    transform: translateY(-2px);
+    filter: drop-shadow(0 3px 5px rgba(124, 93, 250, 0.3));
 }
