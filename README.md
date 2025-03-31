@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: light)" srcset="logo/logo1.png">
-  <img alt="Steg-Go Logo" src="logo/logo1.png" width="460" height="125">
+  <source media="(prefers-color-scheme: light)" srcset="web/static/img/head.png">
+  <img alt="Steg-Go Logo" src="web/static/img/head.png" width="155" height="150">
 </picture>
 
 ### *Secret Text Embedded Generates Output*
