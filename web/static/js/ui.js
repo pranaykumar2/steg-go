@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTabs();
     initThemeToggle();
     initFormHandlers();
-    initFileUploads();
     initCloseButtons();
 });
 
