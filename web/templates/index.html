@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StegGo - image steganography tool for hiding messages and files">
+    <meta name="author" content="pranaykumar2">
+    <meta name="version" content="1.0.0">
+    <meta name="theme-color" content="#e0e5ec">
+
+    <title>StegGo | Image Steganography</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="../static/css/normalize.css">
+
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <link rel="icon" href="../static/img/head.png" type="image/icon type" />
+</head>
+<body>
+<div class="app-container">
+    <header class="app-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo neu-inset">
+                    <img style="width: 57px;height: 55px;" src="../static/img/head.png" alt="Logo : StegGo - image steganography tool for hiding messages and files">
+                </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="neu-flat icon-btn" aria-label="Toggle theme">
+                        <i class='bx bx-sun light-icon'></i>
+                    </button>
+                    <a href="https://github.com/pranaykumar2/steg-go-web" target="_blank" class="neu-flat icon-btn" aria-label="View on GitHub">
+                        <i class='bx bxl-github'></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="header-intro">
+                <h2>STEG-GO</h2>
+                <p>Hide messages and files securely within images using advanced encryption techniques</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="tabs-nav neu-flat" role="tablist">
+                <button class="tab-btn active" data-tab="hide-text" role="tab" aria-selected="true">
+                    <i class='bx bx-text'></i>
+                    <span>Hide Text</span>
+                </button>
+                <button class="tab-btn" data-tab="hide-file" role="tab" aria-selected="false">
+                    <i class='bx bx-file-blank'></i>
+                    <span>Hide File</span>
+                </button>
+                <button class="tab-btn" data-tab="extract" role="tab" aria-selected="false">
+                    <i class='bx bx-lock-open'></i>
+                    <span>Extract</span>
+                </button>
+                <button class="tab-btn" data-tab="analyze" role="tab" aria-selected="false">
+                    <i class='bx bx-analyse'></i>
+                    <span>Analyze</span>
+                </button>
+            </div>
+
+            <div class="tab-panels">
+                <div id="hide-text-panel" class="panel active">
+                    <div class="neu-flat card">
+                        <div class="card-header">
+                            <div class="header-icon neu-pushed">
+                                <i class='bx bx-text'></i>
+                            </div>
+                            <div class="header-text">
+                                <h3>Hide Text in Image</h3>
+                                <p>Securely embed your message within an image</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <form id="hide-text-form" class="operation-form">
+                                <div class="form-layout">
+                                    <div class="form-column">
+                                        <!-- Image Upload -->
+                                        <div class="form-group">
+                                            <label class="form-label">Cover Image</label>
+                                            <div class="upload-container" id="hide-text-upload-container">
+                                                <div class="upload-area neu-inset" id="hide-text-upload-area">
+                                                    <i class='bx bx-image-add upload-icon'></i>
+                                                    <div class="upload-text">
+                                                        <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                        <span class="upload-hint">PNG, JPG up to 50MB</span>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="hide-text-file" accept="image/png,image/jpeg" hidden>
+                                            </div>
+                                            <div id="hide-text-preview-container" class="preview-container neu-inset">
+
+                                            </div>
+                                        </div>
+
+                                        <div id="capacity-indicator" class="capacity-meter">
+                                            <div class="capacity-header">
+                                                <span class="capacity-label">Storage Capacity</span>
+                                                <span id="capacity-text" class="capacity-value">0 / 0 bytes (0%)</span>
+                                            </div>
+                                            <div class="capacity-bar neu-inset">
+                                                <div id="capacity-fill" class="capacity-fill"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-column">
+                                        <!-- Message Input -->
+                                        <div class="form-group">
+                                            <label for="hide-text-message" class="form-label">Message to Hide</label>
+                                            <div class="input-wrapper neu-inset">
+                                                    <textarea id="hide-text-message" class="form-control textarea" rows="10"
+                                                              placeholder="Enter your secret message here..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary neu-flat" disabled>
+                                                <i class='bx bx-lock'></i>
+                                                <span>Hide Message</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="hide-text-results" class="results-section">
+                        <div class="neu-flat card">
+                            <div class="card-header">
+                                <div class="header-icon neu-pushed success">
+                                    <i class='bx bx-check'></i>
+                                </div>
+                                <div class="header-text">
+                                    <h3>Message Hidden Successfully</h3>
+                                    <p>Your message has been securely hidden in the image</p>
+                                </div>
+                                <button class="close-btn neu-flat close-results" aria-label="Close results">
+                                    <i class='bx bx-x'></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="result-layout">
+                                    <div class="result-column">
+                                        <div class="result-image-container neu-inset">
+                                            <img id="hide-text-result-img" alt="Steganographic image with hidden message" class="result-image">
+                                            <div class="image-badge neu-flat">
+                                                <i class='bx bx-lock'></i>
+                                                <span>Contains hidden data</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="result-column">
+                                        <div class="result-details">
+                                            <div class="key-section">
+                                                <label for="hide-text-key" class="form-label">
+                                                    <i class='bx bx-key'></i>
+                                                    Decryption Key
+                                                </label>
+                                                <div class="key-container">
+                                                    <div class="key-field neu-inset">
+                                                        <input type="text" id="hide-text-key" class="form-control monospace" readonly>
+                                                    </div>
+                                                    <button class="icon-btn neu-flat btn-copy" data-copy="hide-text-key" aria-label="Copy to clipboard">
+                                                        <i class='bx bx-copy'></i>
+                                                    </button>
+                                                </div>
+                                                <p class="key-hint">Save this key to extract the message later</p>
+                                            </div>
+
+                                            <div class="download-section">
+                                                <a id="hide-text-download" href="#" class="btn btn-primary neu-flat" download="stego-image.png">
+                                                    <i class='bx bx-download'></i>
+                                                    <span>Download Image</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hide-file-panel" class="panel">
+                    <div class="neu-flat card">
+                        <div class="card-header">
+                            <div class="header-icon neu-pushed">
+                                <i class='bx bx-file-blank'></i>
+                            </div>
+                            <div class="header-text">
+                                <h3>Hide File in Image</h3>
+                                <p>Securely embed any file within a cover image</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <form id="hide-file-form" class="operation-form">
+                                <div class="form-layout">
+                                    <div class="form-column">
+                                        <!-- Cover Image Upload -->
+                                        <div class="form-group">
+                                            <label class="form-label">Cover Image</label>
+                                            <div class="upload-container" id="hide-file-upload-container">
+                                                <div class="upload-area neu-inset" id="hide-file-upload-area">
+                                                    <i class='bx bx-image-add upload-icon'></i>
+                                                    <div class="upload-text">
+                                                        <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                        <span class="upload-hint">PNG, JPG up to 50MB</span>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="hide-file-image" accept="image/png,image/jpeg" hidden>
+                                            </div>
+
+                                            <div id="hide-file-preview-container" class="preview-container neu-inset">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label class="form-label">File to Hide</label>
+                                            <div class="upload-container" id="hide-file-file-container">
+                                                <div class="upload-area neu-inset file-upload" id="hide-file-file-area">
+                                                    <i class='bx bx-file-blank upload-icon'></i>
+                                                    <div class="upload-text">
+                                                        <p>Drop file here or <span class="upload-browse">browse</span></p>
+                                                        <span class="upload-hint">Any file type up to 50MB</span>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="hide-file-file" hidden>
+                                            </div>
+
+                                            <div id="hide-file-file-preview-container" class="file-preview-container neu-inset">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary neu-flat" disabled>
+                                                <i class='bx bx-lock'></i>
+                                                <span>Hide File</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="hide-file-results" class="results-section">
+                        <div class="neu-flat card">
+                            <div class="card-header">
+                                <div class="header-icon neu-pushed success">
+                                    <i class='bx bx-check'></i>
+                                </div>
+                                <div class="header-text">
+                                    <h3>File Hidden Successfully</h3>
+                                    <p>Your file has been securely hidden in the image</p>
+                                </div>
+                                <button class="close-btn neu-flat close-results" aria-label="Close results">
+                                    <i class='bx bx-x'></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="result-layout">
+                                    <div class="result-column">
+                                        <div class="result-image-container neu-inset">
+                                            <img id="hide-file-result-img" alt="Steganographic image with hidden file" class="result-image">
+                                            <div class="image-badge neu-flat">
+                                                <i class='bx bx-lock'></i>
+                                                <span>Contains hidden data</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="result-column">
+                                        <div class="result-details">
+                                            <div class="key-section">
+                                                <label for="hide-file-key" class="form-label">
+                                                    <i class='bx bx-key'></i>
+                                                    Decryption Key
+                                                </label>
+                                                <div class="key-container">
+                                                    <div class="key-field neu-inset">
+                                                        <input type="text" id="hide-file-key" class="form-control monospace" readonly>
+                                                    </div>
+                                                    <button class="icon-btn neu-flat btn-copy" data-copy="hide-file-key" aria-label="Copy to clipboard">
+                                                        <i class='bx bx-copy'></i>
+                                                    </button>
+                                                </div>
+                                                <p class="key-hint">Save this key to extract the file later</p>
+                                            </div>
+
+                                            <div id="hide-file-details" class="details-container neu-inset">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+
+                                            <div class="download-section">
+                                                <a id="hide-file-download" href="#" class="btn btn-primary neu-flat" download="stego-image.png">
+                                                    <i class='bx bx-download'></i>
+                                                    <span>Download Image</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="extract-panel" class="panel">
+                    <div class="neu-flat card">
+                        <div class="card-header">
+                            <div class="header-icon neu-pushed">
+                                <i class='bx bx-lock-open'></i>
+                            </div>
+                            <div class="header-text">
+                                <h3>Extract Hidden Content</h3>
+                                <p>Retrieve hidden messages or files from steganographic images</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <form id="extract-form" class="operation-form">
+                                <div class="form-layout">
+                                    <div class="form-column">
+                                        <!-- Image Upload Area -->
+                                        <div class="form-group">
+                                            <label class="form-label">Steganographic Image</label>
+                                            <div class="upload-container" id="extract-upload-container">
+                                                <div class="upload-area neu-inset" id="extract-upload-area">
+                                                    <i class='bx bx-image-add upload-icon'></i>
+                                                    <div class="upload-text">
+                                                        <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                        <span class="upload-hint">PNG, JPG up to 50MB</span>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="extract-file" accept="image/png,image/jpeg" hidden>
+                                            </div>
+
+                                            <div id="extract-preview-container" class="preview-container neu-inset">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-column">
+                                        <div class="form-group">
+                                            <label for="extract-key" class="form-label">
+                                                <i class='bx bx-key'></i>
+                                                Decryption Key
+                                            </label>
+                                            <div class="input-wrapper neu-inset">
+                                                <input type="text" id="extract-key" class="form-control monospace"
+                                                       placeholder="Enter the 64-character decryption key">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary neu-flat" disabled>
+                                                <i class='bx bx-lock-open-alt'></i>
+                                                <span>Extract Content</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="extract-results" class="results-section">
+                        <div class="neu-flat card">
+                            <div class="card-header">
+                                <div class="header-icon neu-pushed success">
+                                    <i class='bx bx-check'></i>
+                                </div>
+                                <div class="header-text">
+                                    <h3>Content Extracted Successfully</h3>
+                                    <p>Hidden content has been retrieved from the image</p>
+                                </div>
+                                <button class="close-btn neu-flat close-results" aria-label="Close results">
+                                    <i class='bx bx-x'></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div id="extract-text-results" class="extraction-result">
+                                    <div class="result-section-header">
+                                        <i class='bx bx-text'></i>
+                                        <h4>Extracted Message</h4>
+                                    </div>
+                                    <div class="extracted-text neu-inset">
+                                        <pre id="extract-text-content"></pre>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="btn btn-secondary neu-flat" onclick="copyToClipboard('extract-text-content')">
+                                            <i class='bx bx-copy'></i>
+                                            <span>Copy to Clipboard</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div id="extract-file-results" class="extraction-result">
+                                    <div class="result-section-header">
+                                        <i class='bx bx-file'></i>
+                                        <h4>Extracted File</h4>
+                                    </div>
+                                    <div class="file-details neu-inset">
+                                        <div class="file-info">
+                                            <div class="file-icon">
+                                                <i id="extract-file-icon" class='bx bx-file'></i>
+                                            </div>
+                                            <div class="file-meta">
+                                                <div class="detail-row">
+                                                    <span class="detail-label">File Name:</span>
+                                                    <span id="extract-file-name" class="detail-value">-</span>
+                                                </div>
+                                                <div class="detail-row">
+                                                    <span class="detail-label">File Size:</span>
+                                                    <span id="extract-file-size" class="detail-value">-</span>
+                                                </div>
+                                                <div class="detail-row">
+                                                    <span class="detail-label">File Type:</span>
+                                                    <span id="extract-file-type" class="detail-value">-</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="download-section centered">
+                                            <a id="extract-file-download" href="#" class="btn btn-primary neu-flat" download>
+                                                <i class='bx bx-download'></i>
+                                                <span>Download File</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="analyze-panel" class="panel">
+                    <div class="neu-flat card">
+                        <div class="card-header">
+                            <div class="header-icon neu-pushed">
+                                <i class='bx bx-analyse'></i>
+                            </div>
+                            <div class="header-text">
+                                <h3>Analyze Image</h3>
+                                <p>Examine image properties and steganographic capacity</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <form id="analyze-form" class="operation-form">
+                                <div class="form-layout centered">
+                                    <div class="form-column">
+                                        <!-- Image Upload Area -->
+                                        <div class="form-group">
+                                            <label class="form-label">Upload Image for Analysis</label>
+                                            <div class="upload-container" id="analyze-upload-container">
+                                                <div class="upload-area neu-inset" id="analyze-upload-area">
+                                                    <i class='bx bx-image-add upload-icon'></i>
+                                                    <div class="upload-text">
+                                                        <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                        <span class="upload-hint">PNG, JPG up to 50MB</span>
+                                                    </div>
+                                                </div>
+                                                <input type="file" id="analyze-file" accept="image/png,image/jpeg" hidden>
+                                            </div>
+
+                                            <div id="analyze-preview-container" class="preview-container neu-inset">
+                                                <!-- Will be populated by JavaScript -->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions centered">
+                                            <button type="submit" class="btn btn-primary neu-flat" disabled>
+                                                <i class='bx bx-search-alt'></i>
+                                                <span>Analyze Image</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div id="analyze-results" class="results-section">
+                        <div class="neu-flat card">
+                            <div class="card-header">
+                                <div class="header-icon neu-pushed success">
+                                    <i class='bx bx-check'></i>
+                                </div>
+                                <div class="header-text">
+                                    <h3>Image Analysis Results</h3>
+                                    <p>Detailed information about the analyzed image</p>
+                                </div>
+                                <button class="close-btn neu-flat close-results" aria-label="Close results">
+                                    <i class='bx bx-x'></i>
+                                </button>
+                            </div>
+                            <div class="card-content">
+                                <div class="analysis-layout">
+                                    <div class="analysis-column">
+                                        <div class="analysis-section">
+                                            <div class="section-header">
+                                                <i class='bx bx-image'></i>
+                                                <h4>Image Properties</h4>
+                                            </div>
+                                            <div id="analyze-image-details" class="details-container neu-inset">
+                                            </div>
+                                        </div>
+
+                                        <div class="analysis-section">
+                                            <div class="section-header">
+                                                <i class='bx bx-data'></i>
+                                                <h4>Steganographic Capacity</h4>
+                                            </div>
+                                            <div id="analyze-capacity-details" class="details-container neu-inset">
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="analysis-column">
+                                        <div class="analysis-section" id="analyze-privacy-section">
+                                            <div class="section-header">
+                                                <i class='bx bx-shield-quarter'></i>
+                                                <h4>Privacy Analysis</h4>
+                                            </div>
+                                            <div id="analyze-privacy-risks" class="details-container neu-inset">
+
+                                            </div>
+                                        </div>
+
+                                        <div class="analysis-section" id="analyze-exif-section">
+                                            <div class="section-header">
+                                                <i class='bx bx-info-circle'></i>
+                                                <h4>EXIF Metadata</h4>
+                                            </div>
+                                            <div id="analyze-exif-container" class="table-container neu-inset">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="app-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>© 2025 StegGo | Image Steganography Tool</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <span class="footer-divider">•</span>
+                    <a href="#" class="footer-link">Terms of Use</a>
+                    <span class="footer-divider">•</span>
+                    <a href="https://github.com/pranaykumar2/steg-go-web" target="_blank" class="footer-link">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<div id="toast-container"></div>
+
+<div id="loading-overlay">
+    <div class="loader">
+        <div class="loader-inner neu-inset">
+            <div class="loader-animation"></div>
+        </div>
+    </div>
+    <p>Processing your request...</p>
+</div>
+
+<script src="../static/js/ui.js"></script>
+<script src="../static/js/api.js"></script>
+<script src="../static/js/fileHandlers.js"></script>
+<script src="../static/js/validation.js"></script>
+<script src="../static/js/main.js"></script>
+</body>
+</html>
