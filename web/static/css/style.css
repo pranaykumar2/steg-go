@@ -962,6 +962,11 @@ a.neu-flat:active {
     gap: var(--space-3);
 }
 
+div#analyze-upload-area {
+    height: 255px;
+    width: 686px;
+}
+
 .section-header {
     display: flex;
     align-items: center;
@@ -1356,6 +1361,7 @@ a.neu-flat:active {
     }
 
     .card-header {
+        border-radius: 10px;
         flex-direction: column;
         text-align: center;
         padding-top: var(--space-6);

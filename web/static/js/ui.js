@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTabs();
     initThemeToggle();
     initFormHandlers();
-    initFileUploads();
     initCloseButtons();
 });
 
@@ -159,8 +158,7 @@ function initFileUploads() {
             document.querySelector(`.${containerId}-area`) ||
             document.getElementById(containerId) ||
             document.querySelector(`.${containerId}`) ||
-            fileInput.closest('.upload-area') ||
-            fileInput.closest('.file-upload');
+            fileInput.closest('.upload-area');
 
         if (!uploadArea) {
             console.warn(`Upload area not found for: ${containerId}`);
