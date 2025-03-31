@@ -962,11 +962,6 @@ a.neu-flat:active {
     gap: var(--space-3);
 }
 
-div#analyze-upload-area {
-    height: 255px;
-    width: 686px;
-}
-
 .section-header {
     display: flex;
     align-items: center;
