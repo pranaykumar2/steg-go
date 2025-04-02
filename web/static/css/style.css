@@ -81,7 +81,6 @@
     /* Container */
     --container-width: 1200px;
 
-    /* Apply default theme (dark by default) */
     --bg-primary: var(--dark-bg-primary);
     --bg-secondary: var(--dark-bg-secondary);
     --shadow-light: var(--dark-shadow-light);
@@ -97,7 +96,6 @@
     --color-warning: var(--dark-warning);
     --color-error: var(--dark-error);
 
-    /* Neumorphic shadows */
     --shadow-flat: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
     --shadow-pressed: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
     --shadow-inset: inset 2px 2px 5px var(--shadow-dark), inset -2px -2px 5px var(--shadow-light);
@@ -1462,7 +1460,6 @@ a.neu-flat:active {
 }
 
 
-/* Enhanced button styling in dark mode */
 [data-theme="dark"] .btn-primary {
     background: linear-gradient(135deg, var(--dark-accent-primary), var(--dark-accent-secondary));
     box-shadow: 0 4px 10px rgba(124, 93, 250, 0.3);
@@ -1473,7 +1470,6 @@ a.neu-flat:active {
     transform: translateY(-3px);
 }
 
-/* Custom scrollbar for dark mode */
 [data-theme="dark"] ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -1493,13 +1489,11 @@ a.neu-flat:active {
     background: linear-gradient(to bottom, var(--dark-accent-secondary), var(--dark-accent-tertiary));
 }
 
-/* Improved field focus states for dark mode */
 [data-theme="dark"] .form-control:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(124, 93, 250, 0.3);
 }
 
-/* Enhanced upload area styling */
 [data-theme="dark"] .upload-area {
     background-color: rgba(25, 28, 40, 0.5);
     box-shadow: inset 3px 3px 5px var(--dark-shadow-dark),
@@ -1519,7 +1513,6 @@ a.neu-flat:active {
     filter: drop-shadow(0 3px 5px rgba(124, 93, 250, 0.3));
 }
 
-/* Better visual feedback for active tabs */
 [data-theme="dark"] .tab-btn.active {
     color: var(--dark-accent-primary);
 }
@@ -1534,7 +1527,6 @@ a.neu-flat:active {
     box-shadow: 0 1px 5px rgba(124, 93, 250, 0.5);
 }
 
-/* Improve card header styling */
 [data-theme="dark"] .card-header {
     background-color: rgba(23, 24, 41, 0.7);
     border-bottom: 1px solid rgba(60, 70, 110, 0.15);
@@ -1546,13 +1538,11 @@ a.neu-flat:active {
     background-color: rgba(22, 24, 36, 0.8);
 }
 
-/* Enhanced capacity bar styling */
 [data-theme="dark"] .capacity-fill {
     background: linear-gradient(to right, var(--dark-accent-primary), var(--dark-accent-tertiary));
     box-shadow: 0 2px 8px rgba(124, 93, 250, 0.3);
 }
 
-/* Improved extraction result styling */
 [data-theme="dark"] .extracted-text {
     background-color: rgba(22, 24, 36, 0.7);
 }
@@ -1561,15 +1551,160 @@ a.neu-flat:active {
     color: var(--dark-text-primary);
 }
 
-/* File details and metadata containers */
 [data-theme="dark"] .details-container,
 [data-theme="dark"] .file-details {
     background-color: rgba(22, 24, 36, 0.7);
 }
 
-/* Glow effect for icon buttons */
 [data-theme="dark"] .icon-btn:hover {
     color: var(--dark-accent-primary);
     transform: translateY(-2px);
     filter: drop-shadow(0 3px 5px rgba(124, 93, 250, 0.3));
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--z-modal);
+    opacity: 0;
+    transition: opacity var(--transition-normal) var(--ease-out);
+}
+
+.modal.active {
+    display: block;
+    opacity: 1;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 15, 30, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+.modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 90%;
+    max-width: 800px;
+    max-height: 85vh;
+    background-color: var(--bg-primary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-flat);
+    transition: transform var(--transition-normal) var(--ease-out);
+}
+
+.modal.active .modal-container {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    padding: var(--space-5);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.modal-header .header-icon {
+    width: 45px;
+    height: 45px;
+    flex-shrink: 0;
+}
+
+.modal-header .header-text {
+    flex: 1;
+    margin-left: var(--space-4);
+}
+
+.modal-header .header-text h3 {
+    margin-bottom: var(--space-1);
+}
+
+.modal-header .header-text p {
+    font-size: var(--font-size-sm);
+    margin-bottom: 0;
+}
+
+.modal-header .close-btn {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+}
+
+.modal-content {
+    padding: var(--space-5);
+    overflow-y: auto;
+    max-height: calc(85vh - 90px);
+}
+
+.policy-content {
+    padding: var(--space-5);
+    overflow-y: auto;
+    border-radius: var(--border-radius-md);
+}
+
+.policy-content h2 {
+    color: var(--accent-primary);
+    font-size: var(--font-size-xl);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-4);
+}
+
+.policy-content h2:first-child {
+    margin-top: 0;
+}
+
+.policy-content h3 {
+    font-size: var(--font-size-lg);
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-3);
+}
+
+.policy-content h4 {
+    font-size: var(--font-size-md);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+}
+
+.policy-content p {
+    margin-bottom: var(--space-3);
+}
+
+.policy-content ul {
+    margin-bottom: var(--space-4);
+    padding-left: var(--space-6);
+}
+
+.policy-content li {
+    margin-bottom: var(--space-3);
+    color: var(--text-secondary);
+}
+
+.policy-content a {
+    color: var(--accent-tertiary);
+    text-decoration: none;
+    transition: color var(--transition-fast) var(--ease-out);
+}
+
+.policy-content a:hover {
+    color: var(--accent-primary);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+.highlight-red {
+    color: var(--color-error) !important;
+    font-weight: 500;
 }
