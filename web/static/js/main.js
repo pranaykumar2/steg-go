@@ -33,6 +33,9 @@ function initializeApp() {
         initCloseButtons();
     }
 
+    // Initialize modals
+    initModals();
+
     document.querySelectorAll('.btn-copy').forEach(button => {
         button.addEventListener('click', function() {
             const targetId = this.getAttribute('data-copy');
@@ -151,6 +154,73 @@ function removeToast(toast) {
             toast.parentNode.removeChild(toast);
         }
     }, 300);
+}
+
+
+function initModals() {
+    console.log('Initializing modals...');
+
+    const privacyLinks = document.querySelectorAll('.privacy-link');
+    const privacyModal = document.getElementById('privacy-modal');
+
+    const termsLinks = document.querySelectorAll('.terms-link');
+    const termsModal = document.getElementById('terms-modal');
+
+    if ((!privacyModal && privacyLinks.length > 0) || (!termsModal && termsLinks.length > 0)) {
+        console.warn('Some modal elements not found');
+    }
+
+    function openModal(modal) {
+        if (!modal) return;
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeModal(modal) {
+        if (!modal) return;
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    function closeAllModals() {
+        if (privacyModal) privacyModal.classList.remove('active');
+        if (termsModal) termsModal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    privacyLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal(privacyModal);
+        });
+    });
+
+    termsLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal(termsModal);
+        });
+    });
+    
+    document.querySelectorAll('.modal .close-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            closeAllModals();
+        });
+    });
+
+    document.querySelectorAll('.modal .modal-backdrop').forEach(backdrop => {
+        backdrop.addEventListener('click', function() {
+            closeAllModals();
+        });
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.body.classList.contains('modal-open')) {
+            closeAllModals();
+        }
+    });
+
+    console.log('Modal initialization complete');
 }
 
 /**
