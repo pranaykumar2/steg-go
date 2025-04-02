@@ -8,6 +8,7 @@
 ### *Secret Text Embedded Generates Output*
 
 [![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8?style=for-the-badge&logo=go)](https://golang.org)
+[![Go Reference](https://pkg.go.dev/badge/github.com/pranaykumar2/steg-go.svg)](https://pkg.go.dev/github.com/pranaykumar2/steg-go)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/pranaykumar2/steg-go?style=for-the-badge&logo=github)](https://github.com/pranaykumar2/steg-go/stargazers)
 [![Run on Replit](https://img.shields.io/badge/Run%20on-Replit-orange?style=for-the-badge&logo=replit)](https://replit.com/github/pranaykumar2/steg-go)
