@@ -319,11 +319,17 @@ Steg-Go hides your data by modifying the least significant bit of each color cha
 ### AES-256 Encryption Flow
 
 ```mermaid
+---
+config:
+  look: handDrawn
+  theme: default
+---
 graph LR
     A[Original Message] -->|Random Key Generation| B[AES-256 Encryption]
     B --> C[Encrypted Data]
     C -->|Embedding| D[Modified Image]
     E[Original Image] -->|Pixel Modification| D
+
 ```
 
 ---
