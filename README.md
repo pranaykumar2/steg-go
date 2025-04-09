@@ -201,9 +201,10 @@ Extracted message: This is a top secret message!
 
 The diagram below shows how Steg-Go transforms your secret message and embeds it invisibly into an image:
 ```mermaid
+
 ---
 config:
-  theme: neutral
+  layout: elk
 ---
 flowchart TD
  subgraph Input["Input Phase"]
@@ -235,27 +236,27 @@ flowchart TD
         LSB4["Secret Bit Stream"]
         LSB5["New Pixel Value"]
   end
-    A L_A_C_0@-- Load --> C
-    B L_B_D_0@-- Prepare --> D
-    D L_D_E_0@--> E
-    E L_E_F_0@--> F & N
-    F L_F_G_0@--> G
-    C L_C_H_0@--> H
-    G L_G_I_0@--> I
+    A -- Load --> C
+    B -- Prepare --> D
+    D --> E
+    E --> F & N
+    F --> G
+    C --> H
+    G --> I
     H --> J
-    I L_I_J_0@--> J
-    J L_J_K_0@--> K
-    K L_K_L_0@--> L
-    L L_L_M_0@--> M
-    LSB1 L_LSB1_LSB2_0@-- Extract --> LSB2
-    LSB2 L_LSB2_LSB3_0@-- Modify Last Bit --> LSB3
-    LSB4 L_LSB4_LSB3_0@--> LSB3
-    LSB3 L_LSB3_LSB5_0@--> LSB5
-    J L_J_LSB_0@-.-> LSB
-     C:::process
+    I --> J
+    J --> K
+    K --> L
+    L --> M
+    LSB1 -- Extract --> LSB2
+    LSB2 -- Modify Last Bit --> LSB3
+    LSB4 --> LSB3
+    LSB3 --> LSB5
+    J -.-> LSB
      A:::data
-     D:::process
+     C:::process
      B:::data
+     D:::process
      E:::process
      F:::process
      G:::data
@@ -266,8 +267,8 @@ flowchart TD
      L:::process
      M:::process
      N:::data
-     LSB2:::detail
      LSB1:::detail
+     LSB2:::detail
      LSB3:::detail
      LSB4:::detail
      LSB5:::detail
@@ -275,23 +276,8 @@ flowchart TD
     classDef process fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000000
     classDef data fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000000
     classDef detail fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000000
-    L_A_C_0@{ animation: fast } 
-    L_B_D_0@{ animation: fast } 
-    L_D_E_0@{ animation: fast } 
-    L_E_F_0@{ animation: fast } 
-    L_E_N_0@{ animation: slow } 
-    L_F_G_0@{ animation: fast } 
-    L_C_H_0@{ animation: fast } 
-    L_G_I_0@{ animation: fast } 
-    L_I_J_0@{ animation: fast } 
-    L_J_K_0@{ animation: fast } 
-    L_K_L_0@{ animation: fast } 
-    L_L_M_0@{ animation: fast } 
-    L_LSB1_LSB2_0@{ animation: fast } 
-    L_LSB2_LSB3_0@{ animation: fast } 
-    L_LSB4_LSB3_0@{ animation: fast } 
-    L_LSB3_LSB5_0@{ animation: fast } 
-    L_J_LSB_0@{ animation: fast }
+
+
 ```
 
 ### How It Works
