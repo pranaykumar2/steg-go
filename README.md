@@ -200,7 +200,7 @@ Extracted message: This is a top secret message!
 ### Complete Data Flow Process
 
 The diagram below shows how Steg-Go transforms your secret message and embeds it invisibly into an image:
-```
+```mermaid
 ---
 config:
   theme: neutral
