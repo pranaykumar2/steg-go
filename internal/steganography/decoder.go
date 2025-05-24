@@ -11,18 +11,9 @@ import (
   "github.com/pranaykumar2/steg-go/internal/crypto"
 )
 
-// Constants from encoder.go, or a shared constants package, would be ideal.
-// For this exercise, we'll define them here as specified by the task.
-const (
-	// Steganography feature flags (bitmask)
-	FlagEncryptionEnabled = byte(1 << 0) // 0x01
-	FlagLSBMatchingUsed   = byte(1 << 1) // 0x02
-
-	// Crypto constants
-	SaltSize  = 16
-	NonceSize = 12
-	// formatVersion and headerPattern are implicitly available from the package context
-)
+// Constants are now defined in common.go within the same package.
+// No need to redefine FlagEncryptionEnabled, FlagLSBMatchingUsed, SaltSize, NonceSize.
+// formatVersion and headerPattern are specific to LSB steganography and are defined in encoder.go/decoder.go.
 
 type Decoder struct {
   image       image.Image

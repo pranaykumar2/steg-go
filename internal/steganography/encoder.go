@@ -22,15 +22,17 @@ const (
   bitsPerByte   = 8
   formatVersion = byte(1)
 
-  // Steganography feature flags (bitmask)
-  FlagEncryptionEnabled = byte(1 << 0) // 0x01
-  FlagLSBMatchingUsed   = byte(1 << 1) // 0x02
-  // Add more flags here in the future, e.g., byte(1 << 2), byte(1 << 3), etc.
+  // Steganography feature flags (bitmask) are now in common.go
+  // FlagEncryptionEnabled = byte(1 << 0) // 0x01
+  // FlagLSBMatchingUsed   = byte(1 << 1) // 0x02
 
-  // Crypto constants (SaltSize and NonceSize are used by both encoder and crypto package)
-  SaltSize  = 16 // Must match crypto.SaltSize if defined there
-  NonceSize = 12 // Must match crypto.NonceSize if defined there
+  // Crypto constants (SaltSize and NonceSize) are now in common.go
+  // SaltSize  = 16
+  // NonceSize = 12
 )
+
+// LSB specific constants (headerPattern, formatVersion) remain here.
+// TextModeEnabled and FileModeEnabled are in common.go
 
 type Encoder struct {
   processor   *imageprocessing.ImageProcessor

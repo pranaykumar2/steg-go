@@ -2,14 +2,14 @@
 # Created by pranaykumar2
 # Updated: 2025-03-31 14:07:35 (UTC)
 
+param(
+    [switch]$StartServer = $false
+)
+
 $Green = [System.ConsoleColor]::Green
 $Blue = [System.ConsoleColor]::Cyan
 $Red = [System.ConsoleColor]::Red
 $Yellow = [System.ConsoleColor]::Yellow
-
-param(
-    [switch]$StartServer = $false
-)
 
 Write-Host "Building StegGo - Image Steganography Tool (CLI & API/Web Server)" -ForegroundColor $Blue
 Write-Host "===============================================" -ForegroundColor $Blue

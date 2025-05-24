@@ -8,11 +8,12 @@ import (
   "strings"
 )
 
-const (
-  FileModeEnabled byte = 0x01
-  TextModeEnabled byte = 0x00
-  MetadataSize         = 256
-)
+// Constants FileModeEnabled, TextModeEnabled, and MetadataSize are now defined in common.go
+// const (
+//   FileModeEnabled byte = 0x01
+//   TextModeEnabled byte = 0x00
+//   MetadataSize         = 256 // common.go has 258. Code will use common.go's version.
+// )
 
 type FileMetadata struct {
   OriginalName string
