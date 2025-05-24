@@ -8,12 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/pranaykumar2/steg-go/api/utils"
 	"github.com/pranaykumar2/steg-go/internal/crypto"
+	"strings"
+
+	"github.com/gin-gonic/gin"
+	"github.com/pranaykumar2/steg-go/api/utils"
 	"github.com/pranaykumar2/steg-go/internal/steganography"
+	// "github.com/pranaykumar2/steg-go/internal/crypto" // No longer directly used here
 )
 
-type ExtractRequest struct {
-	Key string `json:"key" binding:"required"`
-}
+// ExtractRequest might not be needed if all inputs are from form-data
+// type ExtractRequest struct {
+// No fields needed from JSON body if password and image are from form
+// }
 
 type ExtractResponse struct {
 	IsFile      bool   `json:"isFile"`
@@ -32,22 +38,8 @@ func Extract(c *gin.Context) {
 		return
 	}
 
-	var req ExtractRequest
-	if err := c.ShouldBind(&req); err != nil {
-		utils.ValidationErrorResponse(c, "Invalid request: "+err.Error())
-		return
-	}
-
-	if len(req.Key) != 64 {
-		utils.ValidationErrorResponse(c, "Invalid key length. Expected 64 hexadecimal characters")
-		return
-	}
-
-	key, err := hex.DecodeString(req.Key)
-	if err != nil {
-		utils.ValidationErrorResponse(c, "Invalid key format. Must be hexadecimal")
-		return
-	}
+	// Password will be read from form value
+	password := c.Request.FormValue("password")
 
 	file, err := c.FormFile("image")
 	if err != nil {
@@ -61,38 +53,52 @@ func Extract(c *gin.Context) {
 		return
 	}
 
-	decoder, err := steganography.NewDecoder(imagePath)
+	var decoder *steganography.Decoder
+	if password != "" {
+		decoder, err = steganography.NewDecoder(imagePath, password)
+	} else {
+		decoder, err = steganography.NewDecoder(imagePath)
+	}
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to initialize decoder: "+err.Error())
 		return
 	}
 
-	data, isFile, metadata, err := decoder.Extract()
+	// stegoFlags (4th return) is ignored for now in API response
+	extractedData, isFile, fileMetadata, _, err := decoder.Extract()
 	if err != nil {
+		if strings.Contains(err.Error(), "password required for encrypted data") {
+			utils.ErrorResponse(c, http.StatusBadRequest, "Password required to decrypt this image.")
+			return
+		}
+		if strings.Contains(err.Error(), "failed to decrypt data") { // This implies wrong password
+			utils.ErrorResponse(c, http.StatusUnauthorized, "Decryption failed. Incorrect password.")
+			return
+		}
+		if strings.Contains(err.Error(), "no steganographic data found") {
+			utils.ErrorResponse(c, http.StatusNotFound, "No hidden content found in this image.")
+			return
+		}
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to extract data: "+err.Error())
 		return
 	}
 
-	encryptor, err := crypto.NewEncryptorWithKey(key)
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to initialize decryption: "+err.Error())
-		return
-	}
-
-	decrypted, err := encryptor.Decrypt(data)
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to decrypt data: "+err.Error())
-		return
-	}
+	// Decryption is now handled within decoder.Extract if password was provided.
+	// The 'extractedData' is the final decrypted data.
 
 	response := ExtractResponse{
 		IsFile: isFile,
 	}
 
-	if isFile && metadata != nil {
-		outputPath := filepath.Join(utils.TempDir, metadata.OriginalName)
+	if isFile && fileMetadata != nil {
+		// Save the extracted file to a temporary location to make it available via URL
+		// Ensure the filename is safe to use in a path
+		safeFileName := filepath.Base(fileMetadata.OriginalName) // Use only the filename part
+		outputPath := filepath.Join(utils.TempDir, "extracted_"+utils.GenerateUniqueFilename(safeFileName))
+		
 		fileHandler := steganography.NewFileHandler()
-		if err := fileHandler.SaveFileContent(decrypted, metadata, outputPath); err != nil {
+		// Use extractedData (which is already decrypted)
+		if err := fileHandler.SaveFileContent(extractedData, fileMetadata, outputPath); err != nil {
 			utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to save extracted file: "+err.Error())
 			return
 		}
@@ -100,11 +106,13 @@ func Extract(c *gin.Context) {
 		fileURL := "/api/files/" + filepath.Base(outputPath)
 
 		response.FileURL = fileURL
-		response.FileName = metadata.OriginalName
-		response.FileType = metadata.FileExt
-		response.FileSize = int64(metadata.FileSize)
+		response.FileName = fileMetadata.OriginalName
+		response.FileType = fileMetadata.FileExt
+		response.FileSize = fileMetadata.FileSize // Assuming FileSize in FileMetadata is already int64
 
-		switch filepath.Ext(metadata.OriginalName) {
+		// Determine ContentType (optional, can be set by client or derived)
+		// This is a simplified version. A more robust solution would use mime.TypeByExtension.
+		switch filepath.Ext(safeFileName) {
 		case ".pdf":
 			response.ContentType = "application/pdf"
 		case ".txt":
@@ -116,10 +124,10 @@ func Extract(c *gin.Context) {
 		case ".mp3":
 			response.ContentType = "audio/mpeg"
 		default:
-			response.ContentType = "application/octet-stream"
+			response.ContentType = "application/octet-stream" // Generic binary
 		}
 	} else {
-		response.Message = string(decrypted)
+		response.Message = string(extractedData)
 	}
 
 	utils.SuccessResponse(c, http.StatusOK, "Content extracted successfully", response)

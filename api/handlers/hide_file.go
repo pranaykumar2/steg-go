@@ -11,11 +11,12 @@ import (
 	"github.com/pranaykumar2/steg-go/api/utils"
 	"github.com/pranaykumar2/steg-go/internal/crypto"
 	"github.com/pranaykumar2/steg-go/internal/steganography"
+	// "github.com/pranaykumar2/steg-go/internal/crypto" // No longer directly used
 )
 
 type HideFileResponse struct {
-	Key           string `json:"key"`
 	OutputFileURL string `json:"outputFileURL"`
+	Encryption    string `json:"encryption"` // To indicate if encryption was used
 	FileDetails   struct {
 		OriginalName string `json:"originalName"`
 		FileType     string `json:"fileType"`
@@ -42,60 +43,49 @@ func HideFile(c *gin.Context) {
 		return
 	}
 
+	// Retrieve password from form data
+	password := c.Request.FormValue("password")
+
 	imagePath, err := utils.SaveUploadedFile(imageFile)
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusBadRequest, "Failed to save cover image: "+err.Error())
 		return
 	}
 
-	tempFileToHide, err := os.CreateTemp(utils.TempDir, "file_to_hide_*")
+	// Save the file to hide to a temporary path to pass to ReadFileContent
+	tempFileToHidePath, err := utils.SaveUploadedFile(fileToHide)
 	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to create temporary file: "+err.Error())
+		utils.ErrorResponse(c, http.StatusBadRequest, "Failed to save file to hide: "+err.Error())
 		return
 	}
-	defer os.Remove(tempFileToHide.Name())
-	defer tempFileToHide.Close()
-	src, err := fileToHide.Open()
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to open uploaded file: "+err.Error())
-		return
-	}
-	defer src.Close()
-	if _, err = io.Copy(tempFileToHide, src); err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to copy file: "+err.Error())
-		return
-	}
+	defer os.Remove(tempFileToHidePath) // Clean up the temp file
 
 	fileHandler := steganography.NewFileHandler()
-
-	fileData, metadata, err := fileHandler.ReadFileContent(tempFileToHide.Name())
+	// ReadFileContent expects a path, so we use the saved temp file path
+	fileData, metadata, err := fileHandler.ReadFileContent(tempFileToHidePath)
 	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to read file: "+err.Error())
+		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to read file to hide: "+err.Error())
 		return
 	}
-
+	// Ensure OriginalName and FileExt are from the uploaded file's metadata, not temp path
 	metadata.OriginalName = fileToHide.Filename
 	metadata.FileExt = filepath.Ext(fileToHide.Filename)
 
-	encoder, err := steganography.NewEncoder(imagePath)
+
+	var encoder *steganography.Encoder
+	if password != "" {
+		encoder, err = steganography.NewEncoder(imagePath, password)
+	} else {
+		encoder, err = steganography.NewEncoder(imagePath)
+	}
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to initialize encoder: "+err.Error())
 		return
 	}
 
-	encryptor, err := crypto.NewEncryptor()
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to initialize encryption: "+err.Error())
-		return
-	}
-
-	encrypted, err := encryptor.Encrypt(fileData)
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to encrypt file: "+err.Error())
-		return
-	}
-
-	if err := encoder.HideFile(encrypted, metadata); err != nil {
+	// Encryption is handled by NewEncoder if password is provided.
+	// Pass the original fileData to HideFile.
+	if err := encoder.HideFile(fileData, metadata); err != nil {
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to hide file: "+err.Error())
 		return
 	}
@@ -109,16 +99,18 @@ func HideFile(c *gin.Context) {
 	}
 
 	outputURL := "/api/files/" + filepath.Base(outputPath)
-
-	keyHex := hex.EncodeToString(encryptor.GetKey())
+	encryptionStatus := "disabled"
+	if password != "" {
+		encryptionStatus = "enabled"
+	}
 
 	response := HideFileResponse{
-		Key:           keyHex,
 		OutputFileURL: outputURL,
+		Encryption:    encryptionStatus,
 	}
 	response.FileDetails.OriginalName = metadata.OriginalName
 	response.FileDetails.FileType = metadata.FileExt
-	response.FileDetails.FileSize = int64(metadata.FileSize)
+	response.FileDetails.FileSize = metadata.FileSize // Assuming FileSize is already int64
 
 	// Return success response
 	utils.SuccessResponse(c, http.StatusOK, "File hidden successfully", response)

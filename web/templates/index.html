@@ -141,10 +141,15 @@
                                             <div class="form-group">
                                                 <label for="hide-text-message" class="form-label">Message to Hide</label>
                                                 <div class="input-wrapper neu-inset">
-                                                    <textarea id="hide-text-message" class="form-control textarea" rows="10" placeholder="Enter your secret message here..."></textarea>
+                                                    <textarea id="hide-text-message" class="form-control textarea" rows="8" placeholder="Enter your secret message here..."></textarea>
                                                 </div>
                                             </div>
-
+                                             <div class="form-group">
+                                                <label for="hide-text-password" class="form-label">Password (Optional)</label>
+                                                <div class="input-wrapper neu-inset">
+                                                    <input type="password" id="hide-text-password" class="form-control" placeholder="Enter password for encryption">
+                                                </div>
+                                            </div>
                                             <div class="form-actions">
                                                 <button type="submit" class="btn btn-primary neu-flat" disabled>
                                                     <i class='bx bx-lock'></i>
@@ -186,20 +191,10 @@
                                         <div class="result-column">
                                             <div class="result-details">
                                                 <div class="key-section">
-                                                    <label for="hide-text-key" class="form-label">
-                                                        <i class='bx bx-key'></i> Decryption Key
-                                                    </label>
-                                                    <div class="key-container">
-                                                        <div class="key-field neu-inset">
-                                                            <input type="text" id="hide-text-key" class="form-control monospace" readonly>
-                                                        </div>
-                                                        <button class="icon-btn neu-flat btn-copy" data-copy="hide-text-key" aria-label="Copy to clipboard">
-                                                            <i class='bx bx-copy'></i>
-                                                        </button>
+                                                    <div id="hide-text-encryption-status" class="encryption-status-indicator neu-inset">
+                                                        <!-- Encryption status will be shown here by JS -->
                                                     </div>
-                                                    <p class="key-hint">Save this key to extract the message later</p>
                                                 </div>
-
                                                 <div class="download-section">
                                                     <a id="hide-text-download" href="#" class="btn btn-primary neu-flat" download="stego-image.png">
                                                         <i class='bx bx-download'></i>
@@ -267,7 +262,12 @@
                                                     <!-- Will be populated by JavaScript -->
                                                 </div>
                                             </div>
-
+                                            <div class="form-group">
+                                                <label for="hide-file-password" class="form-label">Password (Optional)</label>
+                                                <div class="input-wrapper neu-inset">
+                                                    <input type="password" id="hide-file-password" class="form-control" placeholder="Enter password for encryption">
+                                                </div>
+                                            </div>
                                             <div class="form-actions">
                                                 <button type="submit" class="btn btn-primary neu-flat" disabled>
                                                     <i class='bx bx-lock'></i>
@@ -309,20 +309,10 @@
                                         <div class="result-column">
                                             <div class="result-details">
                                                 <div class="key-section">
-                                                    <label for="hide-file-key" class="form-label">
-                                                        <i class='bx bx-key'></i> Decryption Key
-                                                    </label>
-                                                    <div class="key-container">
-                                                        <div class="key-field neu-inset">
-                                                            <input type="text" id="hide-file-key" class="form-control monospace" readonly>
-                                                        </div>
-                                                        <button class="icon-btn neu-flat btn-copy" data-copy="hide-file-key" aria-label="Copy to clipboard">
-                                                            <i class='bx bx-copy'></i>
-                                                        </button>
+                                                    <div id="hide-file-encryption-status" class="encryption-status-indicator neu-inset">
+                                                        <!-- Encryption status will be shown here by JS -->
                                                     </div>
-                                                    <p class="key-hint">Save this key to extract the file later</p>
                                                 </div>
-
                                                 <div id="hide-file-details" class="details-container neu-inset">
                                                     <!-- Will be populated by JavaScript -->
                                                 </div>
@@ -378,14 +368,13 @@
 
                                         <div class="form-column">
                                             <div class="form-group">
-                                                <label for="extract-key" class="form-label">
-                                                    <i class='bx bx-key'></i> Decryption Key
+                                                <label for="extract-password" class="form-label">
+                                                    <i class='bx bx-key'></i> Password (if encrypted)
                                                 </label>
                                                 <div class="input-wrapper neu-inset">
-                                                    <input type="text" id="extract-key" class="form-control monospace" placeholder="Enter the 64-character decryption key">
+                                                    <input type="password" id="extract-password" class="form-control" placeholder="Enter password if content is encrypted">
                                                 </div>
                                             </div>
-
                                             <div class="form-actions">
                                                 <button type="submit" class="btn btn-primary neu-flat" disabled>
                                                     <i class='bx bx-lock-open-alt'></i>

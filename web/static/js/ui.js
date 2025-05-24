@@ -588,6 +588,8 @@ async function handleHideTextSubmit(e) {
     try {
         const imageFile = document.getElementById('hide-text-file').files[0];
         const message = document.getElementById('hide-text-message').value;
+        const passwordInput = document.getElementById('hide-text-password');
+        const password = passwordInput ? passwordInput.value : '';
 
         if (!imageFile) {
             if (typeof UIManager !== 'undefined' && UIManager.showToast) {
@@ -606,6 +608,9 @@ async function handleHideTextSubmit(e) {
         const formData = new FormData();
         formData.append('image', imageFile);
         formData.append('message', message);
+        if (password) {
+            formData.append('password', password);
+        }
 
         if (typeof UIManager !== 'undefined' && UIManager.showLoading) {
             UIManager.showLoading();
@@ -633,6 +638,7 @@ async function handleHideTextSubmit(e) {
         if (typeof UIManager !== 'undefined' && UIManager.hideLoading) {
             UIManager.hideLoading();
         }
+        if (passwordInput) passwordInput.value = ''; // Clear password field
     }
 }
 
@@ -643,15 +649,26 @@ async function handleHideTextSubmit(e) {
 function displayHideTextResults(response) {
     if (!response || !response.success) {
         if (typeof UIManager !== 'undefined' && UIManager.showToast) {
-            UIManager.showToast('Operation failed. Please try again.', 'error');
+            UIManager.showToast(response.message || 'Operation failed. Please try again.', 'error');
         }
         return;
     }
 
-    const keyField = document.getElementById('hide-text-key');
-    if (keyField) {
-        keyField.value = response.key || '';
+    // Remove key display, add encryption status display
+    const encryptionStatusDiv = document.getElementById('hide-text-encryption-status');
+    if (encryptionStatusDiv && response.encryption) {
+        encryptionStatusDiv.innerHTML = `
+            <div class="detail-item">
+                <span class="detail-item-label">Encryption:</span>
+                <span class="detail-item-value ${response.encryption === 'enabled' ? 'text-success' : 'text-muted'}">
+                    ${response.encryption.charAt(0).toUpperCase() + response.encryption.slice(1)}
+                </span>
+            </div>
+        `;
+    } else if (encryptionStatusDiv) {
+        encryptionStatusDiv.innerHTML = ''; // Clear if no status
     }
+
     const resultImage = document.getElementById('hide-text-result-img');
     if (resultImage && response.image) {
         if (response.image.url) {
@@ -701,6 +718,8 @@ async function handleHideFileSubmit(e) {
     try {
         const imageFile = document.getElementById('hide-file-image').files[0];
         const fileToHide = document.getElementById('hide-file-file').files[0];
+        const passwordInput = document.getElementById('hide-file-password');
+        const password = passwordInput ? passwordInput.value : '';
 
         if (!imageFile) {
             if (typeof UIManager !== 'undefined' && UIManager.showToast) {
@@ -719,6 +738,9 @@ async function handleHideFileSubmit(e) {
         const formData = new FormData();
         formData.append('image', imageFile);
         formData.append('file', fileToHide);
+        if (password) {
+            formData.append('password', password);
+        }
 
         if (typeof UIManager !== 'undefined' && UIManager.showLoading) {
             UIManager.showLoading();
@@ -746,6 +768,7 @@ async function handleHideFileSubmit(e) {
         if (typeof UIManager !== 'undefined' && UIManager.hideLoading) {
             UIManager.hideLoading();
         }
+        if (passwordInput) passwordInput.value = ''; // Clear password field
     }
 }
 
@@ -756,16 +779,26 @@ async function handleHideFileSubmit(e) {
 function displayHideFileResults(response) {
     if (!response || !response.success) {
         if (typeof UIManager !== 'undefined' && UIManager.showToast) {
-            UIManager.showToast('Operation failed. Please try again.', 'error');
+            UIManager.showToast(response.message || 'Operation failed. Please try again.', 'error');
         }
         return;
     }
 
-    const keyField = document.getElementById('hide-file-key');
-    if (keyField) {
-        keyField.value = response.key || '';
+    // Remove key display, add encryption status display
+    const encryptionStatusDiv = document.getElementById('hide-file-encryption-status');
+     if (encryptionStatusDiv && response.encryption) {
+        encryptionStatusDiv.innerHTML = `
+            <div class="detail-item">
+                <span class="detail-item-label">Encryption:</span>
+                <span class="detail-item-value ${response.encryption === 'enabled' ? 'text-success' : 'text-muted'}">
+                    ${response.encryption.charAt(0).toUpperCase() + response.encryption.slice(1)}
+                </span>
+            </div>
+        `;
+    } else if (encryptionStatusDiv) {
+        encryptionStatusDiv.innerHTML = ''; // Clear if no status
     }
-
+    
     const resultImage = document.getElementById('hide-file-result-img');
     if (resultImage && response.image && response.image.url) {
         const imageUrl = response.image.url.startsWith('http') ?
@@ -1059,7 +1092,9 @@ async function handleExtractSubmit(e) {
 
     try {
         const imageFile = document.getElementById('extract-file').files[0];
-        const key = document.getElementById('extract-key').value.trim();
+        const passwordInput = document.getElementById('extract-password');
+        const password = passwordInput ? passwordInput.value : '';
+        const keyInput = document.getElementById('extract-key'); // Old key input
 
         if (!imageFile) {
             if (typeof UIManager !== 'undefined' && UIManager.showToast) {
@@ -1068,16 +1103,15 @@ async function handleExtractSubmit(e) {
             return;
         }
 
-        if (!key) {
-            if (typeof UIManager !== 'undefined' && UIManager.showToast) {
-                UIManager.showToast('Please enter the decryption key.', 'error');
-            }
-            return;
-        }
+        // Password is now optional for extraction. API handles logic if it's needed but not provided.
+        // The old key field is no longer used for API call.
 
         const formData = new FormData();
         formData.append('image', imageFile);
-        formData.append('key', key);
+        if (password) {
+            formData.append('password', password);
+        }
+        // Old: formData.append('key', key);
 
         if (typeof UIManager !== 'undefined' && UIManager.showLoading) {
             UIManager.showLoading();
@@ -1104,6 +1138,8 @@ async function handleExtractSubmit(e) {
         if (typeof UIManager !== 'undefined' && UIManager.hideLoading) {
             UIManager.hideLoading();
         }
+        if (passwordInput) passwordInput.value = ''; // Clear new password field
+        if (keyInput) keyInput.value = ''; // Clear old key field if it still exists in HTML (it should be removed)
     }
 }
 

@@ -12,22 +12,24 @@ import (
 )
 
 type HideTextRequest struct {
-	Message string `json:"message" binding:"required"`
+	Message  string `form:"message" binding:"required"` // Changed from json to form
+	Password string `form:"password,omitempty"`         // Added password, using form tag
 }
 
 type HideTextResponse struct {
-	Key           string `json:"key"`
 	OutputFileURL string `json:"outputFileURL"`
+	Encryption    string `json:"encryption"` // To indicate if encryption was used
 }
 
 func HideText(c *gin.Context) {
-	// Parse multipart form
+	// Parse multipart form, which is necessary for file uploads and form fields
 	if err := c.Request.ParseMultipartForm(utils.MaxFileSize); err != nil {
 		utils.ValidationErrorResponse(c, "Invalid form data: "+err.Error())
 		return
 	}
 
 	var req HideTextRequest
+	// Bind form data (including message and password) to the struct
 	if err := c.ShouldBind(&req); err != nil {
 		utils.ValidationErrorResponse(c, "Invalid request: "+err.Error())
 		return
@@ -50,25 +52,20 @@ func HideText(c *gin.Context) {
 		return
 	}
 
-	encoder, err := steganography.NewEncoder(inputPath)
+	var encoder *steganography.Encoder
+	if req.Password != "" {
+		encoder, err = steganography.NewEncoder(inputPath, req.Password)
+	} else {
+		encoder, err = steganography.NewEncoder(inputPath)
+	}
 	if err != nil {
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to initialize encoder: "+err.Error())
 		return
 	}
 
-	encryptor, err := crypto.NewEncryptor()
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to initialize encryption: "+err.Error())
-		return
-	}
-
-	encrypted, err := encryptor.Encrypt([]byte(req.Message))
-	if err != nil {
-		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to encrypt message: "+err.Error())
-		return
-	}
-
-	if err := encoder.Hide(encrypted); err != nil {
+	// Encryption is handled by NewEncoder if password is provided.
+	// The original message is passed directly to Hide.
+	if err := encoder.Hide([]byte(req.Message)); err != nil {
 		utils.ErrorResponse(c, http.StatusInternalServerError, "Failed to hide message: "+err.Error())
 		return
 	}
@@ -82,11 +79,13 @@ func HideText(c *gin.Context) {
 	}
 
 	outputURL := "/api/files/" + filepath.Base(outputPath)
-
-	keyHex := hex.EncodeToString(encryptor.GetKey())
+	encryptionStatus := "disabled"
+	if req.Password != "" {
+		encryptionStatus = "enabled"
+	}
 
 	utils.SuccessResponse(c, http.StatusOK, "Message hidden successfully", HideTextResponse{
-		Key:           keyHex,
 		OutputFileURL: outputURL,
+		Encryption:    encryptionStatus,
 	})
 }

@@ -192,29 +192,24 @@ func handleHideCommand(ui *ui.UI) error {
     return fmt.Errorf("message cannot be empty")
   }
 
+  password := ui.PromptInput("Enter password for encryption (optional, press Enter to skip)")
+
   ui.StartProgress("Initializing encoder")
-  encoder, err := steganography.NewEncoder(inputPath)
+  var encoder *steganography.Encoder
+  var err error
+  if password != "" {
+    encoder, err = steganography.NewEncoder(inputPath, password)
+  } else {
+    encoder, err = steganography.NewEncoder(inputPath)
+  }
   if err != nil {
     ui.StopProgress()
     return fmt.Errorf("failed to initialize encoder: %v", err)
   }
 
-  ui.UpdateProgress("Generating encryption key")
-  encryptor, err := crypto.NewEncryptor()
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("failed to initialize encryption: %v", err)
-  }
-
-  ui.UpdateProgress("Encrypting message")
-  encrypted, err := encryptor.Encrypt([]byte(message))
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("failed to encrypt message: %v", err)
-  }
-
+  // Encryption is now handled within encoder.Hide if password is set
   ui.UpdateProgress("Hiding message in image")
-  if err := encoder.Hide(encrypted); err != nil {
+  if err := encoder.Hide([]byte(message)); err != nil { // Pass raw message
     ui.StopProgress()
     return fmt.Errorf("failed to hide message: %v", err)
   }
@@ -227,15 +222,23 @@ func handleHideCommand(ui *ui.UI) error {
   ui.StopProgress()
 
   details := map[string]string{
-    "Input Image": inputPath,
-    "Output Image": outputPath,
+    "Input Image":    inputPath,
+    "Output Image":   outputPath,
     "Message Length": fmt.Sprintf("%d characters", len(message)),
-    "Encrypted Size": fmt.Sprintf("%.2f KB", float64(len(encrypted))/1024),
+  }
+  if password != "" {
+    details["Encryption"] = "Enabled"
+  } else {
+    details["Encryption"] = "Disabled"
   }
   ui.PrintDataDetails(details)
 
-  ui.ShowSuccess("Message hidden successfully in the image")
-  ui.PrintKeyBox(hex.EncodeToString(encryptor.GetKey()))
+  successMessage := "Message hidden successfully in the image"
+  if password != "" {
+    successMessage += " (encrypted)"
+  }
+  ui.ShowSuccess(successMessage)
+  // No key box to print as key derivation is internal to crypto package now
 
   return nil
 }
@@ -273,29 +276,24 @@ func handleHideFileCommand(ui *ui.UI) error {
     return fmt.Errorf("failed to read file: %v", err)
   }
 
+  password := ui.PromptInput("Enter password for encryption (optional, press Enter to skip)")
+
   ui.UpdateProgress("Initializing encoder")
-  encoder, err := steganography.NewEncoder(inputPath)
-  if err != nil {
+  var encoder *steganography.Encoder
+  var errEncoder error
+  if password != "" {
+    encoder, errEncoder = steganography.NewEncoder(inputPath, password)
+  } else {
+    encoder, errEncoder = steganography.NewEncoder(inputPath)
+  }
+  if errEncoder != nil {
     ui.StopProgress()
-    return fmt.Errorf("failed to initialize encoder: %v", err)
+    return fmt.Errorf("failed to initialize encoder: %v", errEncoder)
   }
 
-  ui.UpdateProgress("Generating encryption key")
-  encryptor, err := crypto.NewEncryptor()
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("failed to initialize encryption: %v", err)
-  }
-
-  ui.UpdateProgress("Encrypting file data")
-  encrypted, err := encryptor.Encrypt(fileData)
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("failed to encrypt file data: %v", err)
-  }
-
+  // Encryption is now handled within encoder.HideFile if password is set
   ui.UpdateProgress("Hiding file in image")
-  if err := encoder.HideFile(encrypted, metadata); err != nil {
+  if err := encoder.HideFile(fileData, metadata); err != nil { // Pass raw fileData
     ui.StopProgress()
     return fmt.Errorf("failed to hide file: %v", err)
   }
@@ -310,15 +308,23 @@ func handleHideFileCommand(ui *ui.UI) error {
   details := map[string]string{
     "Input Image": inputPath,
     "Output Image": outputPath,
-    "File Name": metadata.OriginalName,
-    "File Type": metadata.FileExt,
-    "File Size": fmt.Sprintf("%.2f KB", float64(metadata.FileSize)/1024),
-    "Encrypted Size": fmt.Sprintf("%.2f KB", float64(len(encrypted))/1024),
+    "File Name":      metadata.OriginalName,
+    "File Type":      metadata.FileExt,
+    "Original Size":  fmt.Sprintf("%.2f KB", float64(metadata.FileSize)/1024),
+  }
+  if password != "" {
+    details["Encryption"] = "Enabled"
+  } else {
+    details["Encryption"] = "Disabled"
   }
   ui.PrintDataDetails(details)
-
-  ui.ShowSuccess("File hidden successfully in the image")
-  ui.PrintKeyBox(hex.EncodeToString(encryptor.GetKey()))
+  
+  successMessage := "File hidden successfully in the image"
+  if password != "" {
+    successMessage += " (encrypted)"
+  }
+  ui.ShowSuccess(successMessage)
+  // No key box to print
 
   return nil
 }
@@ -331,87 +337,96 @@ func handleExtractCommand(ui *ui.UI) error {
     return fmt.Errorf("file does not exist: %s", inputPath)
   }
 
-  keyStr := ui.PromptInput("Enter encryption key (hex)")
-  keyStr = strings.TrimSpace(keyStr)
-  if len(keyStr) != 64 {
-    return fmt.Errorf("invalid key length. Expected 64 hexadecimal characters")
-  }
+  password := ui.PromptInput("Enter password if content is encrypted (optional, press Enter if not)")
 
-  ui.StartProgress("Validating encryption key")
-  key, err := hex.DecodeString(keyStr)
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("invalid encryption key format: must be hexadecimal")
+  ui.StartProgress("Initializing decoder")
+  var decoder *steganography.Decoder
+  var err error
+  if password != "" {
+    decoder, err = steganography.NewDecoder(inputPath, password)
+  } else {
+    decoder, err = steganography.NewDecoder(inputPath)
   }
-
-  ui.UpdateProgress("Initializing decoder")
-  decoder, err := steganography.NewDecoder(inputPath)
   if err != nil {
     ui.StopProgress()
     return fmt.Errorf("failed to initialize decoder: %v", err)
   }
 
   ui.UpdateProgress("Extracting hidden content")
-  data, isFile, metadata, err := decoder.Extract()
+  // The stegoFlags (4th return value) is not directly used by CLI, but must be captured
+  extractedData, isFile, fileMetadata, _, err := decoder.Extract()
   if err != nil {
     ui.StopProgress()
-    if err.Error() == "no steganographic data found" {
-      return fmt.Errorf("no hidden content found in this image")
+    // Specific error checks from steganography package
+    if strings.Contains(err.Error(), "no steganographic data found") {
+        return fmt.Errorf("no hidden content found in this image")
+    }
+    if strings.Contains(err.Error(), "password required for encrypted data") {
+        return fmt.Errorf("extraction failed: this content is encrypted, a password is required")
+    }
+    if strings.Contains(err.Error(), "failed to decrypt data") { // This often implies wrong password
+        return fmt.Errorf("extraction failed: could not decrypt data, likely incorrect password")
     }
     return fmt.Errorf("failed to extract content: %v", err)
   }
-
-  ui.UpdateProgress("Initializing decryption")
-  encryptor, err := crypto.NewEncryptorWithKey(key)
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("failed to initialize decryption: %v", err)
-  }
-
-  ui.UpdateProgress("Decrypting content")
-  decrypted, err := encryptor.Decrypt(data)
-  if err != nil {
-    ui.StopProgress()
-    return fmt.Errorf("failed to decrypt content: %v", err)
-  }
   ui.StopProgress()
+  
+  // Decryption is handled by decoder.Extract if password was provided
 
-  if isFile && metadata != nil {
+  if isFile && fileMetadata != nil {
     details := map[string]string{
       "Content Type": "File",
-      "File Name": metadata.OriginalName,
-      "File Type": metadata.FileExt,
-      "File Size": fmt.Sprintf("%.2f KB", float64(len(decrypted))/1024),
+      "File Name":    fileMetadata.OriginalName,
+      "File Type":    fileMetadata.FileExt,
+      "File Size":    fmt.Sprintf("%.2f KB", float64(len(extractedData))/1024),
+    }
+    if password != "" {
+        details["Encryption"] = "Attempted Decryption"
+    } else {
+        details["Encryption"] = "Not Attempted (No Password)"
     }
     ui.PrintDataDetails(details)
 
     outputPath := ui.PromptInput("Enter path to save the extracted file (or press Enter to use original filename)")
     if outputPath == "" {
-      outputPath = metadata.OriginalName
+      outputPath = fileMetadata.OriginalName
     }
 
     ui.StartProgress("Saving extracted file")
     fileHandler := steganography.NewFileHandler()
-    if err := fileHandler.SaveFileContent(decrypted, metadata, outputPath); err != nil {
+    if err := fileHandler.SaveFileContent(extractedData, fileMetadata, outputPath); err != nil {
       ui.StopProgress()
       return fmt.Errorf("failed to save extracted file: %v", err)
     }
     ui.StopProgress()
 
-    ui.ShowSuccess(fmt.Sprintf("File extracted and saved to: %s", outputPath))
+    successMsg := fmt.Sprintf("File extracted and saved to: %s", outputPath)
+    if password != "" && err == nil { // err from Extract()
+        successMsg += " (decryption successful)"
+    }
+    ui.ShowSuccess(successMsg)
   } else {
     details := map[string]string{
       "Content Type": "Text Message",
-      "Length": fmt.Sprintf("%d characters", len(decrypted)),
-      "Input Image": inputPath,
+      "Length":       fmt.Sprintf("%d characters", len(extractedData)),
+      "Input Image":  inputPath,
+    }
+    if password != "" {
+        details["Encryption"] = "Attempted Decryption"
+    } else {
+        details["Encryption"] = "Not Attempted (No Password)"
     }
     ui.PrintDataDetails(details)
 
-    ui.ShowSuccess("Message extracted successfully!")
+    successMsg := "Message extracted successfully!"
+    if password != "" && err == nil { // err from Extract()
+        successMsg += " (decryption successful)"
+    }
+    ui.ShowSuccess(successMsg)
 
     fmt.Println()
     color.New(color.FgHiCyan).Println("  ┌─ Extracted Message ───────────────────────────┐")
-    messageLines := splitMessage(string(decrypted), 45)
+    messageLines := splitMessage(string(extractedData), 45)
     for _, line := range messageLines {
       color.New(color.FgHiCyan).Print("  │ ")
       color.New(color.FgHiWhite).Printf("%s", line)

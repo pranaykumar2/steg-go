@@ -86,15 +86,24 @@ const StegGoAPI = (function() {
      * @returns {Promise} - Promise resolving to the API response
      */
     async function hideText(formData) {
+        // formData from main.js should already contain 'image', 'message', and optionally 'password'
+        // No need to create a new FormData here if main.js prepares it correctly.
+        // However, the original structure creates apiFormData, so let's adapt that.
         const apiFormData = new FormData();
-        const message = formData.get('message');
+        
+        const message = formData.get('message'); // Assuming 'message' is the key used in main.js
         if (message) {
-            apiFormData.append('Message', message);
+            apiFormData.append('message', message); // Ensure key matches API expectations ('message')
         }
 
         const image = formData.get('image');
         if (image) {
             apiFormData.append('image', image);
+        }
+
+        const password = formData.get('password'); // Assuming 'password' is the key used in main.js
+        if (password) {
+            apiFormData.append('password', password);
         }
 
         return makeRequest(ENDPOINTS.HIDE_TEXT, 'POST', apiFormData);
@@ -106,6 +115,7 @@ const StegGoAPI = (function() {
      * @returns {Promise} - Promise resolving to the API response
      */
     async function hideFile(formData) {
+        // formData from main.js should already contain 'image', 'file', and optionally 'password'
         const apiFormData = new FormData();
 
         const image = formData.get('image');
@@ -117,6 +127,11 @@ const StegGoAPI = (function() {
         if (file) {
             apiFormData.append('file', file);
         }
+        
+        const password = formData.get('password'); // Assuming 'password' is the key used in main.js
+        if (password) {
+            apiFormData.append('password', password);
+        }
 
         return makeRequest(ENDPOINTS.HIDE_FILE, 'POST', apiFormData);
     }
@@ -127,17 +142,19 @@ const StegGoAPI = (function() {
      * @returns {Promise} - Promise resolving to the API response
      */
     async function extract(formData) {
+        // formData from main.js should already contain 'image' and optionally 'password'
         const apiFormData = new FormData();
-
-        const key = formData.get('key');
-        if (key) {
-            apiFormData.append('Key', key);
-        }
-
+        
         const image = formData.get('image');
         if (image) {
             apiFormData.append('image', image);
         }
+
+        const password = formData.get('password'); // Assuming 'password' is the key used in main.js
+        if (password) {
+            apiFormData.append('password', password);
+        }
+        // The old 'Key' field is no longer needed.
 
         return makeRequest(ENDPOINTS.EXTRACT, 'POST', apiFormData);
     }
@@ -231,7 +248,8 @@ const StegGoAPI = (function() {
         return {
             success: response.success !== false, // Default to true if not explicitly false
             message: response.message || data.message || 'Message hidden successfully',
-            key: data.Key || data.key,
+            // key: data.Key || data.key, // Key is no longer returned
+            encryption: data.Encryption || data.encryption, // Added encryption status
             image: {
                 url: data.OutputFileURL || data.outputFileURL || '',
                 download: data.OutputFileURL || data.outputFileURL || '',
@@ -259,7 +277,8 @@ const StegGoAPI = (function() {
         return {
             success: response.success !== false, // Default to true if not explicitly false
             message: response.message || data.message || 'File hidden successfully',
-            key: data.Key || data.key,
+            // key: data.Key || data.key, // Key is no longer returned
+            encryption: data.Encryption || data.encryption, // Added encryption status
             image: {
                 url: data.OutputFileURL || data.outputFileURL || '',
                 download: data.OutputFileURL || data.outputFileURL || '',
