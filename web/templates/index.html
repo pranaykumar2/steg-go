@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="Steg-Go - A powerful Go-based image steganography tool for hiding and extracting secret messages and files within images. Open-source steganography solution with CLI and web interface.">
-    <meta name="keywords" content="steganography, steggo, steg-go, image steganography, hide messages, Go, Golang, encryption, data hiding, secret messages, information security, cryptography">
+    <meta name="description"
+        content="Steg-Go - A powerful Go-based image steganography tool for hiding and extracting secret messages and files within images. Open-source steganography solution with CLI and web interface.">
+    <meta name="keywords"
+        content="steganography, steggo, steg-go, image steganography, hide messages, Go, Golang, encryption, data hiding, secret messages, information security, cryptography">
     <meta name="author" content="pranaykumar2">
     <meta name="version" content="1.0.0">
-    <meta name="theme-color" content="#e0e5ec">
+    <meta name="theme-color" content="#0f172a">
     <meta name="robots" content="index, follow">
 
     <link rel="canonical" href="https://github.com/pranaykumar2/steg-go">
@@ -17,20 +19,25 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://github.com/pranaykumar2/steg-go">
     <meta property="og:title" content="Steg-Go | Image Steganography Tool">
-    <meta property="og:description" content="Hide secret messages and files within images using this Go-based steganography tool. Features both CLI and web interface.">
+    <meta property="og:description"
+        content="Hide secret messages and files within images using this Go-based steganography tool. Features both CLI and web interface.">
     <meta property="og:image" content="https://raw.githubusercontent.com/pranaykumar2/steg-go/main/static/img/head.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://github.com/pranaykumar2/steg-go">
     <meta name="twitter:title" content="Steg-Go | Image Steganography Tool">
-    <meta name="twitter:description" content="Hide secret messages and files within images using this Go-based steganography tool. Features both CLI and web interface.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/pranaykumar2/steg-go/main/static/img/head.png">
+    <meta name="twitter:description"
+        content="Hide secret messages and files within images using this Go-based steganography tool. Features both CLI and web interface.">
+    <meta name="twitter:image"
+        content="https://raw.githubusercontent.com/pranaykumar2/steg-go/main/static/img/head.png">
 
     <title>StegGo | Go-based Image Steganography Tool</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -51,13 +58,15 @@
             <div class="container">
                 <div class="header-content">
                     <div class="logo neu-inset">
-                        <img style="width: 57px;height: 55px;" src="../static/img/head.png" alt="Logo : StegGo - image steganography tool for hiding messages and files">
+                        <img style="width: 57px;height: 55px;" src="../static/img/head.png"
+                            alt="Logo : StegGo - image steganography tool for hiding messages and files">
                     </div>
                     <div class="header-actions">
                         <button id="theme-toggle" class="neu-flat icon-btn" aria-label="Toggle theme">
                             <i class='bx bx-sun light-icon'></i>
                         </button>
-                        <a href="https://github.com/pranaykumar2/steg-go" target="_blank" class="neu-flat icon-btn" aria-label="View on GitHub">
+                        <a href="https://github.com/pranaykumar2/steg-go" target="_blank" class="neu-flat icon-btn"
+                            aria-label="View on GitHub">
                             <i class='bx bxl-github'></i>
                         </a>
                     </div>
@@ -114,13 +123,16 @@
                                                     <div class="upload-area neu-inset" id="hide-text-upload-area">
                                                         <i class='bx bx-image-add upload-icon'></i>
                                                         <div class="upload-text">
-                                                            <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                            <p>Drop image here or <span
+                                                                    class="upload-browse">browse</span></p>
                                                             <span class="upload-hint">PNG, JPG up to 50MB</span>
                                                         </div>
                                                     </div>
-                                                    <input type="file" id="hide-text-file" accept="image/png,image/jpeg" hidden>
+                                                    <input type="file" id="hide-text-file" accept="image/png,image/jpeg"
+                                                        hidden>
                                                 </div>
-                                                <div id="hide-text-preview-container" class="preview-container neu-inset">
+                                                <div id="hide-text-preview-container"
+                                                    class="preview-container neu-inset">
 
                                                 </div>
                                             </div>
@@ -128,7 +140,8 @@
                                             <div id="capacity-indicator" class="capacity-meter">
                                                 <div class="capacity-header">
                                                     <span class="capacity-label">Storage Capacity</span>
-                                                    <span id="capacity-text" class="capacity-value">0 / 0 bytes (0%)</span>
+                                                    <span id="capacity-text" class="capacity-value">0 / 0 bytes
+                                                        (0%)</span>
                                                 </div>
                                                 <div class="capacity-bar neu-inset">
                                                     <div id="capacity-fill" class="capacity-fill"></div>
@@ -139,9 +152,12 @@
                                         <div class="form-column">
                                             <!-- Message Input -->
                                             <div class="form-group">
-                                                <label for="hide-text-message" class="form-label">Message to Hide</label>
+                                                <label for="hide-text-message" class="form-label">Message to
+                                                    Hide</label>
                                                 <div class="input-wrapper neu-inset">
-                                                    <textarea id="hide-text-message" class="form-control textarea" rows="10" placeholder="Enter your secret message here..."></textarea>
+                                                    <textarea id="hide-text-message" class="form-control textarea"
+                                                        rows="10"
+                                                        placeholder="Enter your secret message here..."></textarea>
                                                 </div>
                                             </div>
 
@@ -175,7 +191,8 @@
                                     <div class="result-layout">
                                         <div class="result-column">
                                             <div class="result-image-container neu-inset">
-                                                <img id="hide-text-result-img" alt="Steganographic image with hidden message" class="result-image">
+                                                <img id="hide-text-result-img"
+                                                    alt="Steganographic image with hidden message" class="result-image">
                                                 <div class="image-badge neu-flat">
                                                     <i class='bx bx-lock'></i>
                                                     <span>Contains hidden data</span>
@@ -191,9 +208,11 @@
                                                     </label>
                                                     <div class="key-container">
                                                         <div class="key-field neu-inset">
-                                                            <input type="text" id="hide-text-key" class="form-control monospace" readonly>
+                                                            <input type="text" id="hide-text-key"
+                                                                class="form-control monospace" readonly>
                                                         </div>
-                                                        <button class="icon-btn neu-flat btn-copy" data-copy="hide-text-key" aria-label="Copy to clipboard">
+                                                        <button class="icon-btn neu-flat btn-copy"
+                                                            data-copy="hide-text-key" aria-label="Copy to clipboard">
                                                             <i class='bx bx-copy'></i>
                                                         </button>
                                                     </div>
@@ -201,7 +220,8 @@
                                                 </div>
 
                                                 <div class="download-section">
-                                                    <a id="hide-text-download" href="#" class="btn btn-primary neu-flat" download="stego-image.png">
+                                                    <a id="hide-text-download" href="#" class="btn btn-primary neu-flat"
+                                                        download="stego-image.png">
                                                         <i class='bx bx-download'></i>
                                                         <span>Download Image</span>
                                                     </a>
@@ -236,14 +256,17 @@
                                                     <div class="upload-area neu-inset" id="hide-file-upload-area">
                                                         <i class='bx bx-image-add upload-icon'></i>
                                                         <div class="upload-text">
-                                                            <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                            <p>Drop image here or <span
+                                                                    class="upload-browse">browse</span></p>
                                                             <span class="upload-hint">PNG, JPG up to 50MB</span>
                                                         </div>
                                                     </div>
-                                                    <input type="file" id="hide-file-image" accept="image/png,image/jpeg" hidden>
+                                                    <input type="file" id="hide-file-image"
+                                                        accept="image/png,image/jpeg" hidden>
                                                 </div>
 
-                                                <div id="hide-file-preview-container" class="preview-container neu-inset">
+                                                <div id="hide-file-preview-container"
+                                                    class="preview-container neu-inset">
                                                     <!-- Will be populated by JavaScript -->
                                                 </div>
                                             </div>
@@ -253,17 +276,20 @@
                                             <div class="form-group">
                                                 <label class="form-label">File to Hide</label>
                                                 <div class="upload-container" id="hide-file-file-container">
-                                                    <div class="upload-area neu-inset file-upload" id="hide-file-file-area">
+                                                    <div class="upload-area neu-inset file-upload"
+                                                        id="hide-file-file-area">
                                                         <i class='bx bx-file-blank upload-icon'></i>
                                                         <div class="upload-text">
-                                                            <p>Drop file here or <span class="upload-browse">browse</span></p>
+                                                            <p>Drop file here or <span
+                                                                    class="upload-browse">browse</span></p>
                                                             <span class="upload-hint">Any file type up to 50MB</span>
                                                         </div>
                                                     </div>
                                                     <input type="file" id="hide-file-file" hidden>
                                                 </div>
 
-                                                <div id="hide-file-file-preview-container" class="file-preview-container neu-inset">
+                                                <div id="hide-file-file-preview-container"
+                                                    class="file-preview-container neu-inset">
                                                     <!-- Will be populated by JavaScript -->
                                                 </div>
                                             </div>
@@ -298,7 +324,8 @@
                                     <div class="result-layout">
                                         <div class="result-column">
                                             <div class="result-image-container neu-inset">
-                                                <img id="hide-file-result-img" alt="Steganographic image with hidden file" class="result-image">
+                                                <img id="hide-file-result-img"
+                                                    alt="Steganographic image with hidden file" class="result-image">
                                                 <div class="image-badge neu-flat">
                                                     <i class='bx bx-lock'></i>
                                                     <span>Contains hidden data</span>
@@ -314,9 +341,11 @@
                                                     </label>
                                                     <div class="key-container">
                                                         <div class="key-field neu-inset">
-                                                            <input type="text" id="hide-file-key" class="form-control monospace" readonly>
+                                                            <input type="text" id="hide-file-key"
+                                                                class="form-control monospace" readonly>
                                                         </div>
-                                                        <button class="icon-btn neu-flat btn-copy" data-copy="hide-file-key" aria-label="Copy to clipboard">
+                                                        <button class="icon-btn neu-flat btn-copy"
+                                                            data-copy="hide-file-key" aria-label="Copy to clipboard">
                                                             <i class='bx bx-copy'></i>
                                                         </button>
                                                     </div>
@@ -328,7 +357,8 @@
                                                 </div>
 
                                                 <div class="download-section">
-                                                    <a id="hide-file-download" href="#" class="btn btn-primary neu-flat" download="stego-image.png">
+                                                    <a id="hide-file-download" href="#" class="btn btn-primary neu-flat"
+                                                        download="stego-image.png">
                                                         <i class='bx bx-download'></i>
                                                         <span>Download Image</span>
                                                     </a>
@@ -363,11 +393,13 @@
                                                     <div class="upload-area neu-inset" id="extract-upload-area">
                                                         <i class='bx bx-image-add upload-icon'></i>
                                                         <div class="upload-text">
-                                                            <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                            <p>Drop image here or <span
+                                                                    class="upload-browse">browse</span></p>
                                                             <span class="upload-hint">PNG, JPG up to 50MB</span>
                                                         </div>
                                                     </div>
-                                                    <input type="file" id="extract-file" accept="image/png,image/jpeg" hidden>
+                                                    <input type="file" id="extract-file" accept="image/png,image/jpeg"
+                                                        hidden>
                                                 </div>
 
                                                 <div id="extract-preview-container" class="preview-container neu-inset">
@@ -382,7 +414,8 @@
                                                     <i class='bx bx-key'></i> Decryption Key
                                                 </label>
                                                 <div class="input-wrapper neu-inset">
-                                                    <input type="text" id="extract-key" class="form-control monospace" placeholder="Enter the 64-character decryption key">
+                                                    <input type="text" id="extract-key" class="form-control monospace"
+                                                        placeholder="Enter the 64-character decryption key">
                                                 </div>
                                             </div>
 
@@ -422,7 +455,8 @@
                                             <pre id="extract-text-content"></pre>
                                         </div>
                                         <div class="form-actions">
-                                            <button class="btn btn-secondary neu-flat" onclick="copyToClipboard('extract-text-content')">
+                                            <button class="btn btn-secondary neu-flat"
+                                                onclick="copyToClipboard('extract-text-content')">
                                                 <i class='bx bx-copy'></i>
                                                 <span>Copy to Clipboard</span>
                                             </button>
@@ -455,7 +489,8 @@
                                                 </div>
                                             </div>
                                             <div class="download-section centered">
-                                                <a id="extract-file-download" href="#" class="btn btn-primary neu-flat" download>
+                                                <a id="extract-file-download" href="#" class="btn btn-primary neu-flat"
+                                                    download>
                                                     <i class='bx bx-download'></i>
                                                     <span>Download File</span>
                                                 </a>
@@ -488,11 +523,13 @@
                                                     <div class="upload-area neu-inset" id="analyze-upload-area">
                                                         <i class='bx bx-image-add upload-icon'></i>
                                                         <div class="upload-text">
-                                                            <p>Drop image here or <span class="upload-browse">browse</span></p>
+                                                            <p>Drop image here or <span
+                                                                    class="upload-browse">browse</span></p>
                                                             <span class="upload-hint">PNG, JPG up to 50MB</span>
                                                         </div>
                                                     </div>
-                                                    <input type="file" id="analyze-file" accept="image/png,image/jpeg" hidden>
+                                                    <input type="file" id="analyze-file" accept="image/png,image/jpeg"
+                                                        hidden>
                                                 </div>
 
                                                 <div id="analyze-preview-container" class="preview-container neu-inset">
@@ -626,13 +663,19 @@
 
             <div class="modal-content">
                 <div class="policy-content neu-inset">
-                    <p>Welcome to Steg-Go, a command-line and web-based tool that lets you hide encrypted messages inside ordinary images using advanced Least Significant Bit (LSB) Steganography combined with AES-256 encryption.</p>
+                    <p>Welcome to Steg-Go, a command-line and web-based tool that lets you hide encrypted messages
+                        inside ordinary images using advanced Least Significant Bit (LSB) Steganography combined with
+                        AES-256 encryption.</p>
                     <h2>Data Processing</h2>
                     <p>Steg-Go is designed with your privacy in mind:</p>
                     <ul>
-                        <li><strong>Client-side Processing:</strong> All steganography and encryption operations are performed locally in your browser or on your device. Your images and messages are never transmitted to our servers.</li>
-                        <li><strong>No Data Storage:</strong> We do not store your images, files, messages, or encryption keys. Everything stays on your device.</li>
-                        <li><strong>No Tracking:</strong> We do not use cookies or tracking technologies to monitor your usage of the application.</li>
+                        <li><strong>Client-side Processing:</strong> All steganography and encryption operations are
+                            performed locally in your browser or on your device. Your images and messages are never
+                            transmitted to our servers.</li>
+                        <li><strong>No Data Storage:</strong> We do not store your images, files, messages, or
+                            encryption keys. Everything stays on your device.</li>
+                        <li><strong>No Tracking:</strong> We do not use cookies or tracking technologies to monitor your
+                            usage of the application.</li>
                     </ul>
                     <h2>Temporary Data</h2>
                     <p>For the web version of Steg-Go, your browser may temporarily store the following:</p>
@@ -641,18 +684,24 @@
                         <li>Files being embedded</li>
                         <li>Generated encryption keys</li>
                     </ul>
-                    <p>This information is only kept in the temporary memory of your browser and is deleted every 15 to 20 minutes while you are uploading.</p>
+                    <p>This information is only kept in the temporary memory of your browser and is deleted every 15 to
+                        20 minutes while you are uploading.</p>
                     <h2>Encryption Keys</h2>
-                    <p>Please note that Steg-Go generates a unique encryption key for each steganographic operation. We strongly recommend that you:</p>
+                    <p>Please note that Steg-Go generates a unique encryption key for each steganographic operation. We
+                        strongly recommend that you:</p>
                     <ul>
                         <li>Save your encryption key in a secure location</li>
                         <li>Do not share your encryption key with unauthorized individuals</li>
-                        <li>Understand that lost keys cannot be recovered, and data encrypted with a lost key cannot be decrypted</li>
+                        <li>Understand that lost keys cannot be recovered, and data encrypted with a lost key cannot be
+                            decrypted</li>
                     </ul>
                     <h2>Security Measures</h2>
-                    <p>Steg-Go uses military-grade AES-256 encryption to secure your data before embedding it in images. This ensures that even if steganography is detected, your hidden content remains securely encrypted.</p>
+                    <p>Steg-Go uses military-grade AES-256 encryption to secure your data before embedding it in images.
+                        This ensures that even if steganography is detected, your hidden content remains securely
+                        encrypted.</p>
                     <h2>Third-Party Services</h2>
-                    <p>Steg-Go does not integrate with or send data to any third-party services, analytics providers, or data processors.</p>
+                    <p>Steg-Go does not integrate with or send data to any third-party services, analytics providers, or
+                        data processors.</p>
 
                     <h2>User Responsibilities</h2>
                     <p>When using Steg-Go, you are responsible for:</p>
@@ -663,12 +712,15 @@
                         <li>Using the service in accordance with applicable laws</li>
                     </ul>
                     <h2>Changes to Privacy Policy</h2>
-                    <p>We may update our Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date.</p>
+                    <p>We may update our Privacy Policy from time to time. Any changes will be posted on this page with
+                        an updated "Last updated" date.</p>
 
                     <h2>Contact Us</h2>
                     <p>If you have any questions about this Privacy Policy, please contact us:</p>
                     <ul>
-                        <li>By visiting our GitHub repository: <a href="https://github.com/pranaykumar2/steg-go" rel="external nofollow noopener" target="_blank">https://github.com/pranaykumar2/steg-go</a></li>
+                        <li>By visiting our GitHub repository: <a href="https://github.com/pranaykumar2/steg-go"
+                                rel="external nofollow noopener"
+                                target="_blank">https://github.com/pranaykumar2/steg-go</a></li>
                     </ul>
                 </div>
             </div>
@@ -693,12 +745,17 @@
             <div class="modal-content">
                 <div class="policy-content neu-inset">
                     <h2>Introduction</h2>
-                    <p>Welcome to StegGo. These Terms of Use govern your use of our steganography application and services. By using StegGO, you accept these terms in full. If you disagree with these terms or any part of them, you must not use our service.</p>
+                    <p>Welcome to StegGo. These Terms of Use govern your use of our steganography application and
+                        services. By using StegGO, you accept these terms in full. If you disagree with these terms or
+                        any part of them, you must not use our service.</p>
 
                     <h2>Purpose and Acceptable Use</h2>
-                    <p class="highlight-red">StegGO is provided for educational and legitimate data security purposes only. This application is designed to help users understand steganography concepts and maintain digital security with a high focus on confidentiality.</p>
+                    <p class="highlight-red">StegGO is provided for educational and legitimate data security purposes
+                        only. This application is designed to help users understand steganography concepts and maintain
+                        digital security with a high focus on confidentiality.</p>
 
-                    <p class="highlight-red">This application must NOT be used for any illegal purposes, including but not limited to:</p>
+                    <p class="highlight-red">This application must NOT be used for any illegal purposes, including but
+                        not limited to:</p>
                     <ul>
                         <li class="highlight-red">Distribution of illegal content</li>
                         <li class="highlight-red">Bypassing security measures without authorization</li>
@@ -708,7 +765,9 @@
                     </ul>
 
                     <h2>Data Handling and Privacy</h2>
-                    <p class="highlight-red">To maintain your privacy and security, all uploaded data and generated images will be automatically deleted every 15 minutes. Your data is not stored or collected in any dedicated storage services or local repositories for any purpose,
+                    <p class="highlight-red">To maintain your privacy and security, all uploaded data and generated
+                        images will be automatically deleted every 15 minutes. Your data is not stored or collected in
+                        any dedicated storage services or local repositories for any purpose,
                         legal or otherwise.</p>
 
                     <p>This automatic deletion ensures that:</p>
@@ -719,10 +778,13 @@
                     </ul>
 
                     <h2>Intellectual Property</h2>
-                    <p>StegGo and its original content, features, and functionality are owned by the StegGo team and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.</p>
+                    <p>StegGo and its original content, features, and functionality are owned by the StegGo team and are
+                        protected by international copyright, trademark, patent, trade secret, and other intellectual
+                        property laws.</p>
 
                     <h2>Disclaimers and Limitations</h2>
-                    <p class="highlight-red">Our service is provided "as is" and "as available." We make no warranties, expressed or implied, regarding the reliability, availability, or accuracy of our service.</p>
+                    <p class="highlight-red">Our service is provided "as is" and "as available." We make no warranties,
+                        expressed or implied, regarding the reliability, availability, or accuracy of our service.</p>
 
                     <p>We do not guarantee that:</p>
                     <ul>
@@ -742,18 +804,25 @@
                     </ul>
 
                     <h2>Service Modifications</h2>
-                    <p>We reserve the right to modify or discontinue, temporarily or permanently, the service with or without notice. We shall not be liable to you or any third party for any modification, suspension, or discontinuance of the service.</p>
+                    <p>We reserve the right to modify or discontinue, temporarily or permanently, the service with or
+                        without notice. We shall not be liable to you or any third party for any modification,
+                        suspension, or discontinuance of the service.</p>
 
                     <h2>Governing Law</h2>
-                    <p>These Terms shall be governed by the laws of India, without regard to its conflict of law provisions.</p>
+                    <p>These Terms shall be governed by the laws of India, without regard to its conflict of law
+                        provisions.</p>
 
                     <h2>Changes to Terms</h2>
-                    <p>We reserve the right to modify these terms at any time. We will provide notice of any significant changes through the service. Your continued use of the service after such modifications constitutes your acceptance of the revised terms.</p>
+                    <p>We reserve the right to modify these terms at any time. We will provide notice of any significant
+                        changes through the service. Your continued use of the service after such modifications
+                        constitutes your acceptance of the revised terms.</p>
 
                     <h2>Contact</h2>
                     <p>If you have any questions about these Terms, please contact us at:</p>
                     <ul>
-                        <li>By visiting our GitHub repository: <a href="https://github.com/pranaykumar2/steg-go" rel="external nofollow noopener" target="_blank">https://github.com/pranaykumar2/steg-go</a></li>
+                        <li>By visiting our GitHub repository: <a href="https://github.com/pranaykumar2/steg-go"
+                                rel="external nofollow noopener"
+                                target="_blank">https://github.com/pranaykumar2/steg-go</a></li>
                     </ul>
                 </div>
             </div>
